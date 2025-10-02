@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 use Migrations\AbstractMigration;
-use Cake\Auth\DefaultPasswordHasher;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 
 class InsertDefaultUser extends AbstractMigration
 {
