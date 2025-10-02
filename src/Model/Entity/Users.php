@@ -8,16 +8,23 @@ use Authentication\PasswordHasher\DefaultPasswordHasher;
 
 class User extends Entity
 {
-    protected $_accessible = [
+    // Polia, ktoré môžu byť masívne priradené
+    protected array $_accessible = [
         '*' => true,
         'id' => false,
     ];
 
-    protected $_hidden = [
+    // Skryté polia pri serializácii
+    protected array $_hidden = [
         'password',
     ];
 
-    // Automatické hashovanie hesla pri zápise
+    /**
+     * Automatické hashovanie hesla pri zápise
+     *
+     * @param string $password
+     * @return string|null
+     */
     protected function _setPassword(string $password): ?string
     {
         if (strlen($password) > 0) {

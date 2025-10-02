@@ -3,9 +3,9 @@ name: CI
 on:
   push:
     branches:
-      - '4.x'
-      - '4.next'
       - '5.x'
+      - '5.next'
+      - '6.x'
   pull_request:
     branches:
       - '*'
@@ -16,12 +16,15 @@ permissions:
 
 jobs:
   testsuite:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4', '8.0', '8.1', '8.2']
-    name: PHP ${{ matrix.php-version }}
+        include:
+          - php-version: '8.1'
+            dependencies: 'lowest'
+          - php-version: '8.4'
+            dependencies: 'highest'
 
     steps:
     - uses: actions/checkout@v4
@@ -31,23 +34,26 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
         extensions: mbstring, intl, pdo_sqlite
+        ini-values: zend.assertions=1
         coverage: none
 
     - name: Composer install
-      run: |
-        composer update
-        composer run-script post-install-cmd --no-interaction
+      uses: ramsey/composer-install@v3
+      with:
+        dependency-versions: ${{ matrix.dependencies }}
+        composer-options: ${{ matrix.composer-options }}
+
+    - name: Composer post install
+      run: composer run-script post-install-cmd --no-interaction
 
     - name: Run PHPUnit
-      run: |
-        cp config/app_local.example.php config/app_local.php
-        vendor/bin/phpunit
+      run: vendor/bin/phpunit
       env:
         DATABASE_TEST_URL: sqlite://./testdb.sqlite
 
   coding-standard:
     name: Coding Standard & Static Analysis
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v4
@@ -55,13 +61,13 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
+        php-version: '8.1'
         extensions: mbstring, intl
         coverage: none
-        tools: cs2pr, phpstan:1
+        tools: cs2pr, phpstan:1.12
 
     - name: Composer install
-      run: composer install
+      uses: ramsey/composer-install@v3
 
     - name: Run PHP CodeSniffer
       run: vendor/bin/phpcs --report=checkstyle | cs2pr
@@ -69,3 +75,5 @@ jobs:
     - name: Run phpstan
       if: always()
       run: phpstan
+      env:
+        SECURITY_SALT: f76f1c8475585c46c6acd3ddcb8f5e0f15de524637bb4080a08c4afe7cfc9144

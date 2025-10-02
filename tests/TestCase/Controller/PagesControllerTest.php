@@ -23,8 +23,6 @@ use Cake\TestSuite\TestCase;
 
 /**
  * PagesControllerTest class
- *
- * @uses \App\Controller\PagesController
  */
 class PagesControllerTest extends TestCase
 {
@@ -70,7 +68,7 @@ class PagesControllerTest extends TestCase
 
         $this->assertResponseFailure();
         $this->assertResponseContains('Missing Template');
-        $this->assertResponseContains('Stacktrace');
+        $this->assertResponseContains('stack-frames');
         $this->assertResponseContains('not_existing.php');
     }
 

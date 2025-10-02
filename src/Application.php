@@ -14,72 +14,56 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\MiddlewareQueue;
+use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Cake\Http\Middleware\CsrfProtectionMiddleware;
-use Cake\ORM\Locator\TableLocator;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
+
     public function bootstrap(): void
     {
         parent::bootstrap();
 
-        if (PHP_SAPI === 'cli') {
-            $this->bootstrapCli();
-        } else {
-            FactoryLocator::add(
-                'Table',
-                (new TableLocator())->allowFallbackClass(false)
-            );
+        if (PHP_SAPI !== 'cli') {
+            FactoryLocator::add('Table', (new TableLocator())->allowFallbackClass(false));
         }
-
-        if (Configure::read('debug')) {
-            $this->addPlugin('DebugKit');
-        }
-
-        $this->addPlugin('Authentication');
     }
 
-    public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
-    {
-        $middlewareQueue
-            ->add(new ErrorHandlerMiddleware(Configure::read('Error'), $this))
-            ->add(new AssetMiddleware(['cacheTime' => Configure::read('Asset.cacheTime')]))
-            ->add(new RoutingMiddleware($this))
-            ->add(new BodyParserMiddleware())
-            ->add(new CsrfProtectionMiddleware(['httponly' => true]))
-            ->add(new AuthenticationMiddleware($this));
+   public function middleware(MiddlewareQueue $middlewareQueue): MiddlewareQueue
+{
+    $middlewareQueue
+        ->add(new ErrorHandlerMiddleware(Configure::read('Error')))
+        ->add(new AssetMiddleware(['cacheTime' => Configure::read('Asset.cacheTime')]))
+        ->add(new RoutingMiddleware($this))
+        ->add(new BodyParserMiddleware())
+        ->add(new AuthenticationMiddleware($this));
 
-        return $middlewareQueue;
-    }
+
+    return $middlewareQueue;
+}
 
     public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
-    {
-        $service = new AuthenticationService();
+{
+    $service = new AuthenticationService();
 
-        $service->loadIdentifier('Authentication.Password', [
-            'fields' => ['username' => 'login', 'password' => 'password']
-        ]);
+    $service->loadIdentifier('Authentication.Password', [
+        'fields' => ['username' => 'login', 'password' => 'password']
+    ]);
 
-        $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => ['username' => 'login', 'password' => 'password'],
-            'loginUrl' => '/users/login',
-        ]);
+    $service->loadAuthenticator('Authentication.Session');
+    $service->loadAuthenticator('Authentication.Form', [
+        'fields' => ['username' => 'login', 'password' => 'password'],
+        'loginUrl' => '/users/login',
+    ]);
 
-        return $service;
-    }
+    return $service;
+}
 
     public function services(ContainerInterface $container): void
     {
-        // Prípadné DI služby
+        // prázdne, môžeš pridať dependency injection services
     }
 
-    protected function bootstrapCli(): void
-    {
-        $this->addOptionalPlugin('Bake');
-        $this->addPlugin('Migrations');
-    }
 }

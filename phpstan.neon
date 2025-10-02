@@ -1,9 +1,13 @@
+# phpstan.neon
 parameters:
     level: 8
-    checkMissingIterableValueType: false
-    treatPhpDocTypesAsCertain: false
-    checkGenericClassInNonGenericObjectType: false
+
     paths:
-        - src/
+        - src
+
+    bootstrapFiles:
+        - tests/bootstrap.php
+
     excludePaths:
-        - src/Console/Installer.php
+        - %currentWorkingDirectory%/vendor/*
+        - %currentWorkingDirectory%/tests/*

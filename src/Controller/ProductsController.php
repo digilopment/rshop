@@ -4,71 +4,71 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Event\EventInterface;
-use Cake\ORM\TableRegistry;
 use Cake\Http\Exception\NotFoundException;
-use Cake\Utility\Text;
 
 class ProductsController extends AppController
 {
+    protected $Products;
+    protected $Categories;
 
     public function initialize(): void
     {
         parent::initialize();
 
         $this->loadComponent('Flash');
-        //$this->loadModel('Products');
-        $this->loadModel('Categories');
-        // Prípadne načítanie ďalších komponentov, ak sú potrebné
+
+        // CakePHP 5: načítanie modelov cez fetchTable
+        $this->Products = $this->fetchTable('Products');
+        $this->Categories = $this->fetchTable('Categories');
     }
 
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         // Prístup k produktom je verejný, nie je potrebné prihlasovanie
     }
 
-    public function index($categoryId = null, $slug = null)
+    public function index(?int $categoryId = null, ?string $slug = null): void
     {
         if ($categoryId) {
             $category = $this->Categories->get($categoryId);
             if (!$category) {
                 throw new NotFoundException(__('Kategória nebola nájdená'));
             }
-            $products = $this->Products->find('all')
+            $products = $this->Products->find()
                 ->where(['category_id' => $categoryId])
                 ->all();
         } else {
-            $products = $this->Products->find('all')->all();
+            $products = $this->Products->find()->all();
         }
 
-        $categories = $this->Categories->find('all')->all();
-
+        $categories = $this->Categories->find()->all();
         $this->set(compact('products', 'categories'));
     }
 
     /**
      * URL: /eshop/:id-:slug
      */
-    public function category($id = null, $slug = null)
+    public function category(?int $id = null, ?string $slug = null): void
     {
         if (!$id) {
             throw new NotFoundException(__('Kategória nebola nájdená'));
         }
 
-        $query = $this->Products->find()
+        $products = $this->Products->find()
             ->contain(['Categories'])
             ->matching('Categories', function ($q) use ($id) {
                 return $q->where(['Categories.id' => $id]);
-            });
+            })
+            ->all();
 
-        $products = $query->all();
         $this->set(compact('products'));
     }
 
     /**
      * Detail produktu
      */
-    public function view($id = null)
+    public function view(?int $id = null): void
     {
         if (!$id) {
             throw new NotFoundException(__('Produkt nebol nájdený'));
@@ -77,5 +77,4 @@ class ProductsController extends AppController
         $product = $this->Products->get($id, ['contain' => ['Categories']]);
         $this->set(compact('product'));
     }
-
 }

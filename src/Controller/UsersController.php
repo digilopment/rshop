@@ -8,6 +8,7 @@ use function Cake\I18n\__;
 
 class UsersController extends AppController
 {
+    protected $Users;
 
     public function initialize(): void
     {
@@ -15,38 +16,48 @@ class UsersController extends AppController
 
         // Load authentication component
         $this->loadComponent('Authentication.Authentication');
+
+        // CakePHP 5: načítanie modelu cez fetchTable
+        $this->Users = $this->fetchTable('Users');
     }
 
-    public function beforeFilter(EventInterface $event)
+    public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
         $this->Authentication->allowUnauthenticated(['login', 'register']);
     }
 
-    public function register()
+    public function register(): void
     {
         $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
+        $request = $this->getRequest();
+
+        if ($request->is('post')) {
+            $user = $this->Users->patchEntity($user, $request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registrácia prebehla úspešne.'));
-                return $this->redirect(['action' => 'login']);
+                $this->redirect(['action' => 'login']);
+                return;
             }
             $this->Flash->error(__('Nepodarilo sa uložiť používateľa.'));
         }
+
         $this->set(compact('user'));
     }
 
-    public function login()
+    public function login(): void
     {
-        $this->request->allowMethod(['get', 'post']);
+        $request = $this->getRequest();
+        $this->getRequest()->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
 
         if ($result->isValid()) {
             $target = $this->Authentication->getLoginRedirect() ?? '/';
-            return $this->redirect($target);
+            $this->redirect($target);
+            return;
         }
-        if ($this->request->is('post')) {
+
+        if ($request->is('post')) {
             $this->Flash->error(__('Neplatné prihlasovacie údaje.'));
         }
     }
@@ -61,6 +72,4 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'login']);
     }
-
-
 }
