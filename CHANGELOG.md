@@ -4,7 +4,7 @@
 ## [Unreleased][unreleased]
 
 ### Added
-- Inicializovaná CakePHP 4 aplikácia.
+- Inicializovaná CakePHP 5 aplikácia.
 - Vytvorený `UsersController` s podporou registrácie a login/logout.
 - Pridaná autentifikácia cez CakePHP Authentication plugin.
 - `UsersTable` so základnými validáciami (`username`, `email`, `password`, password_confirm`).
@@ -18,6 +18,9 @@
 - Zobrazenie menu s kategóriami a produktami vo view.
 - `HomeController` s `index` action pre zobrazenie všetkých produktov.
 - Migrácia `CreateUsers` a `InsertDefaultUser` pre defaultného používateľa (`login: rshop`, `password: rshop`).
+- Pridaný docker-compose.yml so službami rshop-db (MySQL 8.0) a rshop-app.
+- Konfigurácia zabezpečuje automatickú inicializáciu databázy, aplikáciu migrácií a spustenie appky.
+- Zabezpečené poradie štartu služieb – appka sa spustí až po zdravej DB.
 
 ### Fixed
 - Riešené chyby: `Subject must be an instance of AuthenticationServiceInterface`, `Missing Table class`, hashovanie hesla, IdentityHelper trait chýbajúci.
