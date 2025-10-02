@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.0.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Console;
 
 if (!defined('STDIN')) {
@@ -81,7 +83,7 @@ class Installer
      */
     public static function createAppLocalConfig(string $dir, IOInterface $io): void
     {
-        $appLocalConfig = $dir . '/config/app_local.php';
+        $appLocalConfig         = $dir . '/config/app_local.php';
         $appLocalConfigTemplate = $dir . '/config/app_local.example.php';
         if (!file_exists($appLocalConfig)) {
             copy($appLocalConfigTemplate, $appLocalConfig);
@@ -121,7 +123,7 @@ class Installer
         // ask if the permissions should be changed
         if ($io->isInteractive()) {
             $validator = function (string $arg): string {
-                if (in_array($arg, ['Y', 'y', 'N', 'n'])) {
+                if (in_array($arg, ['Y', 'y', 'N', 'n'], true)) {
                     return $arg;
                 }
                 throw new Exception('This is not a valid answer. Please choose Y or n.');
@@ -133,14 +135,14 @@ class Installer
                 'Y',
             );
 
-            if (in_array($setFolderPermissions, ['n', 'N'])) {
+            if (in_array($setFolderPermissions, ['n', 'N'], true)) {
                 return;
             }
         }
 
         // Change the permissions on a path and output the results.
         $changePerms = function (string $path) use ($io): void {
-            $currentPerms = fileperms($path) & 0777;
+            $currentPerms  = fileperms($path) & 0777;
             $worldWritable = $currentPerms | 0007;
             if ($worldWritable == $currentPerms) {
                 return;
@@ -197,7 +199,7 @@ class Installer
      */
     public static function setSecuritySaltInFile(string $dir, IOInterface $io, string $newKey, string $file): void
     {
-        $config = $dir . '/config/' . $file;
+        $config  = $dir . '/config/' . $file;
         $content = file_get_contents($config);
         if ($content === false) {
             $io->write('Config file not readable or not found: config/' . $file);
@@ -233,7 +235,7 @@ class Installer
      */
     public static function setAppNameInFile(string $dir, IOInterface $io, string $appName, string $file): void
     {
-        $config = $dir . '/config/' . $file;
+        $config  = $dir . '/config/' . $file;
         $content = file_get_contents($config);
         if ($content === false) {
             $io->write('Config file not readable or not found: config/' . $file);

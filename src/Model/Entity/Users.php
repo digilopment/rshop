@@ -1,16 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
 
-use Cake\ORM\Entity;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Cake\ORM\Entity;
 
 class User extends Entity
 {
     // Polia, ktoré môžu byť masívne priradené
     protected array $_accessible = [
-        '*' => true,
+        '*'  => true,
         'id' => false,
     ];
 

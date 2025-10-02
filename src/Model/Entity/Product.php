@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -9,7 +10,7 @@ class Product extends Entity
 {
     // Polia, ktoré môžu byť masívne priradené
     protected array $_accessible = [
-        '*' => true,
+        '*'  => true,
         'id' => false, // id nechceme aby sa prepisovalo
     ];
 
@@ -21,7 +22,7 @@ class Product extends Entity
     protected function _getPriceWithVat(): ?float
     {
         $price = $this->get('price');
-        $vat = $this->get('vat');
+        $vat   = $this->get('vat');
 
         if ($price === null || $vat === null) {
             return null;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -6,10 +7,14 @@ namespace App\Controller;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\NotFoundException;
 
+use function Cake\I18n\__;
+
+use Cake\ORM\Table;
+
 class ProductsController extends AppController
 {
-    protected $Products;
-    protected $Categories;
+    protected Table $Products;
+    protected Table $Categories;
 
     public function initialize(): void
     {
@@ -17,24 +22,20 @@ class ProductsController extends AppController
 
         $this->loadComponent('Flash');
 
-        // CakePHP 5: načítanie modelov cez fetchTable
-        $this->Products = $this->fetchTable('Products');
+        $this->Products   = $this->fetchTable('Products');
         $this->Categories = $this->fetchTable('Categories');
     }
 
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
-        // Prístup k produktom je verejný, nie je potrebné prihlasovanie
+
     }
 
     public function index(?int $categoryId = null, ?string $slug = null): void
     {
         if ($categoryId) {
-            $category = $this->Categories->get($categoryId);
-            if (!$category) {
-                throw new NotFoundException(__('Kategória nebola nájdená'));
-            }
+
             $products = $this->Products->find()
                 ->where(['category_id' => $categoryId])
                 ->all();
@@ -65,9 +66,7 @@ class ProductsController extends AppController
         $this->set(compact('products'));
     }
 
-    /**
-     * Detail produktu
-     */
+
     public function view(?int $id = null): void
     {
         if (!$id) {

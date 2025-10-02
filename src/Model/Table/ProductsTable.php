@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -8,7 +9,6 @@ use Cake\Validation\Validator;
 
 class ProductsTable extends Table
 {
-
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -22,9 +22,9 @@ class ProductsTable extends Table
 
         // Asociácia s kategóriami (Many-to-Many)
         $this->belongsToMany('Categories', [
-            'foreignKey' => 'product_id',
+            'foreignKey'       => 'product_id',
             'targetForeignKey' => 'category_id',
-            'joinTable' => 'products_categories',
+            'joinTable'        => 'products_categories',
         ]);
     }
 

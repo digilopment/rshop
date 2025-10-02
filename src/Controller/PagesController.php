@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Core\Configure;
@@ -38,9 +40,9 @@ class PagesController extends AppController
      * @return \Cake\Http\Response|null
      * @throws \Cake\Http\Exception\ForbiddenException When a directory traversal attempt.
      * @throws \Cake\View\Exception\MissingTemplateException When the view file could not
-     *   be found and in debug mode.
+     *                                                       be found and in debug mode.
      * @throws \Cake\Http\Exception\NotFoundException When the view file could not
-     *   be found and not in debug mode.
+     *                                                be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
     public function display(string ...$path): ?Response

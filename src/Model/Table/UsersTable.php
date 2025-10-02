@@ -1,8 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
+use App\Model\Entity\User;
 use ArrayObject;
 use Cake\Auth\DefaultPasswordHasher;
 use Cake\Datasource\EntityInterface;
@@ -13,7 +15,6 @@ use Cake\Validation\Validator;
 
 class UsersTable extends Table
 {
-
     public function initialize(array $config): void
     {
         parent::initialize($config);
@@ -21,16 +22,29 @@ class UsersTable extends Table
         $this->setTable('users');
         $this->setPrimaryKey('id');
         $this->setDisplayField('username');
-
-        // Automaticky zapisovať created/modified
         $this->addBehavior('Timestamp');
     }
 
-    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options)
+    /**
+     * Before save callback
+     *
+     * @param EventInterface<\App\Model\Entity\User> $event
+     * @param \App\Model\Entity\User $entity
+     * @param ArrayObject<string, mixed> $options
+     */
+    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
     {
+
+        /** @var User $entity */
         if ($entity->isDirty('password')) {
-            $hasher = new DefaultPasswordHasher();
-            $entity->password = $hasher->hash($entity->password);
+            if (!class_exists(DefaultPasswordHasher::class)) {
+                throw new \RuntimeException('DefaultPasswordHasher class not found. Run `composer require cakephp/authentication`.');
+            }
+
+            if (isset($entity->password)) {
+                $hasher           = new DefaultPasswordHasher();
+                $entity->password = $hasher->hash((string) $entity->password);
+            }
         }
     }
 
@@ -48,11 +62,10 @@ class UsersTable extends Table
             ->requirePresence('password', 'create')
             ->notEmptyString('password', 'Zadajte heslo');
 
-        // voliteľne: potvrdenie hesla
         $validator
             ->add('password_confirm', 'compare', [
-                'rule' => ['compareWith', 'password'],
-                'message' => 'Heslá sa nezhodujú'
+                'rule'    => ['compareWith', 'password'],
+                'message' => 'Heslá sa nezhodujú',
         ]);
 
         return $validator;
@@ -60,7 +73,6 @@ class UsersTable extends Table
 
     public function buildRules(RulesChecker $rules): RulesChecker
     {
-        // Unikátny email
         $rules->add($rules->isUnique(['login'], 'Používateľské meno je už obsadené'));
 
         return $rules;
