@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     curl \
+    nano \
     gnupg \
     lsb-release \
     && rm -rf /var/lib/apt/lists/*
@@ -15,18 +16,25 @@ RUN apt-get update && apt-get install -y \
 RUN add-apt-repository ppa:ondrej/php -y && apt-get update && apt-get install -y \
     php8.1 \
     php8.1-cli \
-    php8.1-common \
     php8.1-fpm \
+    php8.1-bcmath \
+    php8.1-dev \
     php8.1-mysql \
-    php8.1-intl \
-    php8.1-xml \
-    php8.1-mbstring \
-    php8.1-curl \
-    php8.1-zip \
     php8.1-gd \
+    php8.1-intl \
+    php8.1-mbstring \
+    php8.1-xml \
+    php8.1-zip \
+    php8.1-soap \
+    php8.1-gmp \
+    php8.1-curl \
+    php8.1-sqlite3 \
+    php8.1-redis \
+    php8.1-imap \
+    php8.1-common \
     nginx \
-    mysql-server \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -38,6 +46,7 @@ WORKDIR /var/www/app
 
 # Composer install
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+COPY ./app_local.php /var/www/app/config/app_local.php
 
 # Konfigurácia nginx
 RUN rm /etc/nginx/sites-enabled/default
@@ -47,7 +56,12 @@ COPY ./nginx.conf /etc/nginx/sites-enabled/rshop.conf
 RUN chown -R www-data:www-data /var/www/app/tmp /var/www/app/logs
 
 # Expose porty
-EXPOSE 80 3306
+EXPOSE 80
 
 # Spustenie všetkého
-CMD service mysql start && service php8.2-fpm start && nginx -g 'daemon off;'
+CMD bash -c "\
+  service php8.1-fpm start && \
+  bin/cake migrations migrate && \
+  nginx -g 'daemon off;' \
+"
+
