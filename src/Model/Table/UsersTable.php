@@ -6,7 +6,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\User;
 use ArrayObject;
-use Cake\Auth\DefaultPasswordHasher;
+use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
