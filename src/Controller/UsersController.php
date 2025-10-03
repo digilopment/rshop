@@ -1,21 +1,21 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Entity\User;
 use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\ORM\Table;
-
 use function Cake\I18n\__;
 
- /**
+/**
  * @property AuthenticationComponent $Authentication
  */
 class UsersController extends AppController
 {
+
     protected Table $Users;
 
     public function initialize(): void
@@ -79,8 +79,6 @@ class UsersController extends AppController
         return $this->redirect(['action' => 'login']);
     }
 
-    // === TU DOPLŇUJEME CRUD PRE /users/me ===
-
     public function me(): ?Response
     {
         $result = $this->Authentication->getResult();
@@ -88,7 +86,9 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'login']);
         }
 
-        $userId = $result->getData()->id;
+        /** @var User $userEntity */
+        $userEntity = $result->getData();
+        $userId = $userEntity->id;
         $user = $this->Users->get($userId);
 
         $this->set(compact('user'));
@@ -102,7 +102,9 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'login']);
         }
 
-        $userId = $result->getData()->id;
+        /** @var User $userEntity */
+        $userEntity = $result->getData();
+        $userId = $userEntity->id;
         $user = $this->Users->get($userId);
 
         if ($this->getRequest()->is(['post', 'put', 'patch'])) {
@@ -117,4 +119,5 @@ class UsersController extends AppController
         $this->set(compact('user'));
         return null;
     }
+
 }
