@@ -6,12 +6,14 @@ namespace App\Controller\Admin;
 
 use App\Controller\AuthController;
 use App\Service\UploadImageService;
-use Cake\Http\Exception\NotFoundException;
+use Cake\ORM\Table;
 use Laminas\Diactoros\UploadedFile;
 
 class ProductsController extends AuthController
 {
     private UploadImageService $UploadImage;
+    protected Table $Categories;
+    protected Table $Products;
 
     public function initialize(): void
     {
@@ -22,13 +24,13 @@ class ProductsController extends AuthController
         $this->UploadImage = new UploadImageService();
     }
 
-    public function index()
+    public function index(): void
     {
         $products = $this->Products->find()->contain(['Categories']);
         $this->set(compact('products'));
     }
 
-    public function add()
+    public function add(): void
     {
         $product = $this->Products->newEmptyEntity();
 
@@ -50,7 +52,7 @@ class ProductsController extends AuthController
 
             if ($this->Products->save($product)) {
                 $this->Flash->success('Produkt bol uložený.');
-                return $this->redirect(['action' => 'index']);
+                $this->redirect(['action' => 'index']);
             }
 
             $this->Flash->error('Nepodarilo sa uložiť produkt.');
@@ -63,13 +65,9 @@ class ProductsController extends AuthController
         $this->set(compact('product', 'categories'));
     }
 
-    public function edit($id)
+    public function edit(int $id): void
     {
         $product = $this->Products->get($id, ['contain' => ['Categories']]);
-        if (!$product) {
-            throw new NotFoundException();
-        }
-
         if ($this->request->is(['post', 'put', 'patch'])) {
             $data = $this->request->getData();
 
@@ -98,7 +96,7 @@ class ProductsController extends AuthController
         $this->set(compact('product', 'categories'));
     }
 
-    public function delete($id)
+    public function delete(int $id): void
     {
         $this->request->allowMethod(['post', 'delete']);
         $product = $this->Products->get($id);
@@ -107,7 +105,7 @@ class ProductsController extends AuthController
         } else {
             $this->Flash->error('Nepodarilo sa zmazať produkt.');
         }
-        return $this->redirect(['action' => 'index']);
+        $this->redirect(['action' => 'index']);
     }
 
 }
