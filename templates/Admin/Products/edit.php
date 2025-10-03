@@ -61,7 +61,7 @@
             <?php if (!empty($product->image)): ?>
                 <div class="mt-2">
                     <p>Aktuálny obrázok:</p>
-                    <img src="<?= $this->Url->build('/img/products/' . h($product->image)) ?>" alt="Produktový obrázok" style="max-width: 300px; height: auto;">
+                    <img src="<?= $this->Image->product($product->image, 'eshopProduct') ?>" alt="Produktový obrázok" style="max-width: 300px; height: auto;">
                 </div>
             <?php endif; ?>
         </div>

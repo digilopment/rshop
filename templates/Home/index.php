@@ -7,9 +7,8 @@
             <?php foreach ($products as $product): ?>
                 <div class="col">
                     <div class="card h-100">
-                        <?php if ($product->image): ?>
-                            <img src="<?= $this->Url->build('/img/products/' . $product->image) ?>" class="card-img-top" alt="<?= h($product->name) ?>">
-                        <?php endif; ?>
+                        <img src="<?= $this->Image->product($product->image, 'eshopProduct') ?>" class="card-img-top" alt="<?= h($product->name) ?>">
+
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?= h($product->name) ?></h5>
                             <p class="card-text mt-auto"><strong>Cena:</strong> <?= h($product->price) ?> €</p>
