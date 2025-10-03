@@ -27,14 +27,38 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <body class="d-flex flex-column min-vh-100">
 
         <!-- Top bar -->
-        <div class="bg-light py-2 border-bottom text-end px-3">
-            <?php if ($this->Identity->isLoggedIn()): ?>
-                Prihlásený ako <strong><?= h($this->Identity->get('login')) ?></strong> |
-                <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
-            <?php else: ?>
-                <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login'], ['class' => 'btn btn-sm btn-outline-primary']) ?>
-            <?php endif; ?>
+        <div class="container">
+            <div class="bg-light py-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+
+                <div>
+                    <?php if ($this->Identity->isLoggedIn()): ?>
+                        Prihlásený ako 
+                        <strong>
+                            <?=
+                            $this->Html->link(
+                                h($this->Identity->get('login')),
+                                ['controller' => 'Users', 'action' => 'me', 'prefix' => false]
+                            )
+
+                            ?>
+                        </strong>
+                    <?php endif; ?>
+                </div>
+
+                <div>
+                    <?php if ($this->Identity->isLoggedIn()): ?>
+                        <?= $this->Html->link('Kategórie', ['prefix' => 'Admin', 'controller' => 'Categories', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
+                        <?= $this->Html->link('Produkty', ['prefix' => 'Admin', 'controller' => 'Products', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
+                        <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => false], ['class' => 'text-decoration-none']) ?>
+                    <?php else: ?>
+                        <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login', 'prefix' => false], ['class' => 'text-decoration-none']) ?>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
+
+
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand fw-bold" href="<?= $this->Url->build('/') ?>">R<span>SHOP</span></a>
@@ -53,6 +77,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                                 $this->Url->build([
                                     'controller' => 'Products',
                                     'action' => 'category',
+                                    'prefix' => false,
                                     $category->id,
                                     $slug
                                 ])

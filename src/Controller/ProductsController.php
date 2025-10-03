@@ -40,25 +40,22 @@ class ProductsController extends AuthController
         $this->set(compact('products', 'categories'));
     }
 
-    /**
-     * URL: /eshop/:id-:slug
-     */
     public function category(?int $id = null, ?string $slug = null): void
     {
-        if (!$id) {
-            throw new NotFoundException(__('Kategória nebola nájdená'));
-        }
-
-        $products = $this->Products->find()
-            ->contain(['Categories'])
-            ->matching('Categories', function ($q) use ($id) {
+        $query = $this->Products->find()
+            ->contain(['Categories']);
+        if ($id) {
+            $query = $query->matching('Categories', function ($q) use ($id) {
                 return $q->where(['Categories.id' => $id]);
-            })
-            ->all();
+            });
+            $category = $this->Categories->get($id);
+        } else {
+            $category = null;
+        }
+        $products = $query->all();
 
-        $this->set(compact('products'));
+        $this->set(compact('products', 'category'));
     }
-
 
     public function view(?int $id = null): void
     {
@@ -69,4 +66,5 @@ class ProductsController extends AuthController
         $product = $this->Products->get($id, ['contain' => ['Categories']]);
         $this->set(compact('product'));
     }
+
 }

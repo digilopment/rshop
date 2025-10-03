@@ -11,8 +11,6 @@ services:
       MYSQL_ROOT_PASSWORD: root
     networks:
       - rshop-network
-    ports:
-      - "3306:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 5s
@@ -23,9 +21,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        VERSION: bod-3
     container_name: rshop-app
     ports:
-      - "8080:80"
+      - "8885:80"
     networks:
       - rshop-network
     restart: unless-stopped

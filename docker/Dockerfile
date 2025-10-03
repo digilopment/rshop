@@ -1,5 +1,7 @@
 FROM ubuntu:22.04
 
+ARG VERSION
+ENV VERSION=${VERSION}
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update & základné balíky
@@ -41,7 +43,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Klon repozitára
 WORKDIR /var/www
-RUN git clone https://github.com/digilopment/rshop.git app
+RUN git clone --branch ${VERSION} --single-branch https://github.com/digilopment/rshop.git app
+
 WORKDIR /var/www/app
 
 # Composer install
