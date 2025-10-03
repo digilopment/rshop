@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -7,15 +8,16 @@ use App\Model\Entity\User;
 use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
-use Cake\ORM\Table;
+
 use function Cake\I18n\__;
+
+use Cake\ORM\Table;
 
 /**
  * @property AuthenticationComponent $Authentication
  */
 class UsersController extends AppController
 {
-
     protected Table $Users;
 
     public function initialize(): void
@@ -35,7 +37,7 @@ class UsersController extends AppController
 
     public function register(): void
     {
-        $user = $this->Users->newEmptyEntity();
+        $user    = $this->Users->newEmptyEntity();
         $request = $this->getRequest();
 
         if ($request->is('post')) {
@@ -88,8 +90,8 @@ class UsersController extends AppController
 
         /** @var User $userEntity */
         $userEntity = $result->getData();
-        $userId = $userEntity->id;
-        $user = $this->Users->get($userId);
+        $userId     = $userEntity->id;
+        $user       = $this->Users->get($userId);
 
         $this->set(compact('user'));
         return null;
@@ -104,8 +106,8 @@ class UsersController extends AppController
 
         /** @var User $userEntity */
         $userEntity = $result->getData();
-        $userId = $userEntity->id;
-        $user = $this->Users->get($userId);
+        $userId     = $userEntity->id;
+        $user       = $this->Users->get($userId);
 
         if ($this->getRequest()->is(['post', 'put', 'patch'])) {
             $user = $this->Users->patchEntity($user, $this->getRequest()->getData());
