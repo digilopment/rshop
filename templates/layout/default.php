@@ -29,11 +29,20 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <!-- Top bar -->
         <div class="bg-light py-2 border-bottom text-end px-3">
             <?php if ($this->Identity->isLoggedIn()): ?>
-                Prihlásený ako <strong><?= h($this->Identity->get('login')) ?></strong> |
+                Prihlásený ako 
+                <strong>
+                    <?=
+                    $this->Html->link(
+                        h($this->Identity->get('login')),
+                        ['controller' => 'Users', 'action' => 'me']
+                    )
+
+                    ?>
+                </strong> |
                 <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'btn btn-sm btn-outline-secondary']) ?>
-            <?php else: ?>
-                <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login'], ['class' => 'btn btn-sm btn-outline-primary']) ?>
-            <?php endif; ?>
+<?php else: ?>
+    <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login'], ['class' => 'btn btn-sm btn-outline-primary']) ?>
+<?php endif; ?>
         </div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
@@ -58,10 +67,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                                 ])
 
                                 ?>">
-                                       <?= h($category->name) ?>
+                            <?= h($category->name) ?>
                                 </a>
                             </li>
-                        <?php endforeach; ?>
+<?php endforeach; ?>
                     </ul>
                 </div>
             </div>
@@ -70,8 +79,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <!-- Main content -->
         <main class="flex-fill py-4">
             <div class="container">
-                <?= $this->Flash->render() ?>
-                <?= $this->fetch('content') ?>
+<?= $this->Flash->render() ?>
+<?= $this->fetch('content') ?>
             </div>
         </main>
 
@@ -81,6 +90,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </footer>
 
         <!-- Bootstrap JS (optional, for navbar toggle) -->
-        <?= $this->Html->script(['bootstrap.bundle.min']) ?>
+<?= $this->Html->script(['bootstrap.bundle.min']) ?>
     </body>
 </html>
