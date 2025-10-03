@@ -40,9 +40,6 @@ class ProductsController extends AuthController
         $this->set(compact('products', 'categories'));
     }
 
-    /**
-     * URL: /eshop/:id-:slug
-     */
     public function category(?int $id = null, ?string $slug = null): void
     {
         if (!$id) {
@@ -56,9 +53,10 @@ class ProductsController extends AuthController
             })
             ->all();
 
-        $this->set(compact('products'));
-    }
+        $category = $this->Categories->get($id);
 
+        $this->set(compact('products', 'category'));
+    }
 
     public function view(?int $id = null): void
     {
