@@ -29,4 +29,19 @@ return function (RouteBuilder $routes): void {
 
         $builder->fallbacks();
     });
+
+    $routes->prefix('Admin', function (RouteBuilder $builder) {
+        $builder->connect('/products', ['controller' => 'Products', 'action' => 'index']);
+        $builder->connect('/products/add', ['controller' => 'Products', 'action' => 'add']);
+        $builder->connect('/products/edit/{id}', ['controller' => 'Products', 'action' => 'edit'], ['pass' => ['id'], 'id' => '\d+']);
+        $builder->connect('/products/delete/{id}', ['controller' => 'Products', 'action' => 'delete'], ['pass' => ['id'], 'id' => '\d+']);
+        
+        $builder->connect('/categories', ['controller' => 'Categories', 'action' => 'index']);
+        $builder->connect('/categories/add', ['controller' => 'Categories', 'action' => 'add']);
+        $builder->connect('/categories/edit/{id}', ['controller' => 'Categories', 'action' => 'edit'], ['pass' => ['id'], 'id' => '\d+']);
+        $builder->connect('/categories/delete/{id}', ['controller' => 'Categories', 'action' => 'delete'], ['pass' => ['id'], 'id' => '\d+']);
+
+        $builder->fallbacks(DashedRoute::class);
+    });
 };
+
