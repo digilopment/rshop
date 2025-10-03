@@ -13,6 +13,11 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/pages/*', 'Pages::display');
 
         $builder->connect(
+            '/eshop',
+            ['controller' => 'Products', 'action' => 'category'],
+            ['_method' => ['GET'], '_name' => 'allProducts']
+        );
+        $builder->connect(
             '/eshop/{id}-{slug}',
             ['controller' => 'Products', 'action' => 'category'],
             [

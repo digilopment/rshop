@@ -28,32 +28,32 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
         <!-- Top bar -->
         <div class="container">
-        <div class="bg-light py-2 border-bottom px-3 d-flex justify-content-between align-items-center">
-            
-            <div>
-                <?php if ($this->Identity->isLoggedIn()): ?>
-                    Prihlásený ako 
-                    <strong>
-                        <?=
-                        $this->Html->link(
-                            h($this->Identity->get('login')),
-                            ['controller' => 'Users', 'action' => 'me']
-                        )
+            <div class="bg-light py-2 border-bottom px-3 d-flex justify-content-between align-items-center">
 
-                        ?>
-                    </strong>
-                <?php endif; ?>
-            </div>
+                <div>
+                    <?php if ($this->Identity->isLoggedIn()): ?>
+                        Prihlásený ako 
+                        <strong>
+                            <?=
+                            $this->Html->link(
+                                h($this->Identity->get('login')),
+                                ['controller' => 'Users', 'action' => 'me', 'prefix' => false]
+                            )
 
-            <div>
-                <?php if ($this->Identity->isLoggedIn()): ?>
-                    <?= $this->Html->link('Kategórie', ['prefix' => 'Admin', 'controller' => 'Categories', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
-                    <?= $this->Html->link('Produkty', ['prefix' => 'Admin', 'controller' => 'Products', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
-                    <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout'], ['class' => 'text-decoration-none']) ?>
-                <?php else: ?>
-                    <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login'], ['class' => 'text-decoration-none']) ?>
-                <?php endif; ?>
-            </div>
+                            ?>
+                        </strong>
+                    <?php endif; ?>
+                </div>
+
+                <div>
+                    <?php if ($this->Identity->isLoggedIn()): ?>
+                        <?= $this->Html->link('Kategórie', ['prefix' => 'Admin', 'controller' => 'Categories', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
+                        <?= $this->Html->link('Produkty', ['prefix' => 'Admin', 'controller' => 'Products', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
+                        <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => false], ['class' => 'text-decoration-none']) ?>
+                    <?php else: ?>
+                        <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login', 'prefix' => false], ['class' => 'text-decoration-none']) ?>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 
@@ -77,6 +77,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                                 $this->Url->build([
                                     'controller' => 'Products',
                                     'action' => 'category',
+                                    'prefix' => false,
                                     $category->id,
                                     $slug
                                 ])
