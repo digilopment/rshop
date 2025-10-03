@@ -24,6 +24,9 @@ return function (RouteBuilder $routes): void {
             ]
         );
 
+        $builder->connect('/users/me', ['controller' => 'Users', 'action' => 'me']);
+        $builder->connect('/users/me/edit', ['controller' => 'Users', 'action' => 'edit']);
+
         $builder->fallbacks();
     });
 };
