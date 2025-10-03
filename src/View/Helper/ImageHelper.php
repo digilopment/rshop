@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\View\Helper;
@@ -7,6 +8,10 @@ use Cake\View\Helper;
 
 class ImageHelper extends Helper
 {
+    /**
+     *
+     * @var array<string,string>
+     */
     protected array $paths = [
         'eshopProduct' => '/img/products/',
         'default'      => '/img/default/',

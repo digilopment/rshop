@@ -52,4 +52,7 @@ nbproject/*
 yarn-debug.log
 yarn-error.log
 
+# Custom Ignores #
+######################
+.php-cs-fixer.cache
 webroot/img/products/*
