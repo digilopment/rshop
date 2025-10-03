@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\Event\EventInterface;
 use Cake\Http\Exception\NotFoundException;
 
 use function Cake\I18n\__;
 
 use Cake\ORM\Table;
 
-class ProductsController extends AppController
+class ProductsController extends AuthController
 {
     protected Table $Products;
     protected Table $Categories;
@@ -24,12 +23,6 @@ class ProductsController extends AppController
 
         $this->Products   = $this->fetchTable('Products');
         $this->Categories = $this->fetchTable('Categories');
-    }
-
-    public function beforeFilter(EventInterface $event): void
-    {
-        parent::beforeFilter($event);
-
     }
 
     public function index(?int $categoryId = null, ?string $slug = null): void

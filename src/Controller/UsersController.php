@@ -12,11 +12,13 @@ use function Cake\I18n\__;
 
 use Cake\ORM\Table;
 
+/**
+ * @property AuthenticationComponent $Authentication
+ */
 class UsersController extends AppController
 {
     protected Table $Users;
 
-    //protected AuthenticationComponent $Authentication;
 
     public function initialize(): void
     {
@@ -30,7 +32,6 @@ class UsersController extends AppController
     public function beforeFilter(EventInterface $event): void
     {
         parent::beforeFilter($event);
-        /** @phpstan-ignore-next-line */
         $this->Authentication->allowUnauthenticated(['login', 'register']);
     }
 
@@ -56,11 +57,9 @@ class UsersController extends AppController
     {
         $request = $this->getRequest();
         $this->getRequest()->allowMethod(['get', 'post']);
-        /** @phpstan-ignore-next-line */
         $result = $this->Authentication->getResult();
 
         if ($result && $result->isValid()) {
-            /** @phpstan-ignore-next-line */
             $target = $this->Authentication->getLoginRedirect() ?? '/';
             $this->redirect($target);
             return;
@@ -73,11 +72,9 @@ class UsersController extends AppController
 
     public function logout(): ?Response
     {
-        /** @phpstan-ignore-next-line */
         $result = $this->Authentication->getResult();
 
         if ($result && $result->isValid()) {
-            /** @phpstan-ignore-next-line */
             $this->Authentication->logout();
         }
 

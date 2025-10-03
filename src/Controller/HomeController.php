@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use Cake\ORM\Table;
 
-class HomeController extends AppController
+class HomeController extends AuthController
 {
     protected Table $Products;
     protected Table $Categories;
