@@ -1,22 +1,57 @@
-<div class="container py-5">
-    <h1 class="mb-4">Kategória: <?= h($category->name ?? 'Produkty') ?></h1>
-
-    <?php if (!empty($products)): ?>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <?php foreach ($products as $product): ?>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="<?= $this->Image->product($product->image, 'eshopProduct') ?>" class="card-img-top" alt="<?= h($product->name) ?>">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?= h($product->name) ?></h5>
-                            <p class="card-text mt-auto"><strong>Cena:</strong> <?= h($product->price) ?> €</p>
-                            <a href="#" class="btn btn-primary mt-2">Kúpiť</a>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-5">
+            <img src="<?= $this->Image->product($product->image, 'eshopProduct') ?>" alt="<?= h($product->name) ?>" class="img-fluid rounded">
         </div>
-    <?php else: ?>
-        <div class="alert alert-info">V tejto kategórii momentálne nie sú žiadne produkty.</div>
-    <?php endif; ?>
+
+        <div class="col-md-7">
+            <h1><?= h($product->name) ?></h1>
+            <p class="fs-4 fw-bold"><?= $product->price ?> € <small class="text-muted">(+<?= $product->vat ?>% DPH)</small></p>
+
+            <?php
+
+            use Cake\Utility\Text;
+
+            if (!empty($product->categories)):
+
+                ?>
+                <p>
+                    <strong>Kategórie:</strong>
+                    <?php
+                    foreach ($product->categories as $category):
+                        $slug = strtolower(Text::slug($category->name));
+
+                        ?>
+                        <a href="<?=
+                        $this->Url->build([
+                            'controller' => 'Products',
+                            'action' => 'category',
+                            'prefix' => false,
+                            $category->id,
+                            $slug
+                        ])
+
+                        ?>" class="badge bg-secondary text-decoration-none me-1">
+                               <?= h($category->name) ?>
+                        </a>
+                    <?php endforeach; ?>
+                </p>
+            <?php endif; ?>
+
+            <p><?= h($product->description) ?></p>
+
+            <button class="btn btn-primary add-to-cart"
+                    data-id="<?= $product->id ?>"
+                    data-name="<?= h($product->name) ?>"
+                    data-price="<?= $product->price ?>"
+                    data-vat="<?= $product->vat ?>">
+                <i class="fas fa-shopping-cart me-2"></i> Pridať do košíka
+            </button>
+
+            <!-- Feedback po pridaní -->
+            <div class="mt-2 add-to-cart-feedback text-success" style="display:none;">
+                Produkt bol pridaný do košíka!
+            </div>
+        </div>
+    </div>
 </div>

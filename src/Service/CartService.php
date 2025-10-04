@@ -4,102 +4,94 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Laminas\Diactoros\UploadedFile;
+use App\Model\Entity\CartProduct;
+use Cake\Http\Session;
+use Riesenia\Cart\Cart;
 
-class UploadImageService
+class CartService
 {
-    /**
-     * Upload a single image and resize it if needed
-     *
-     * @param array<string, mixed>|UploadedFile $data Uploaded file array or instance
-     * @param string $fieldName
-     * @param string $targetFolder
-     * @param int|null $maxWidth
-     * @return string|null
-     */
-    public function upload(array|UploadedFile $data, string $fieldName = 'image', string $targetFolder = 'products', ?int $maxWidth = null): ?string
+    public Cart $cart;
+    private Session $session;
+
+    public function __construct(Session $session)
     {
-        $uploadedFile = null;
+        $this->session = $session;
+        $storedCart    = json_decode(json_encode($this->session->read('Cart'))) ?? [];
+        $this->cart    = new Cart();
+        $this->cart->setPricesWithVat(false);
 
-        if ($data instanceof UploadedFile) {
-            $uploadedFile = $data;
-        } elseif (isset($data[$fieldName]) && $data[$fieldName] instanceof UploadedFile) {
-            $uploadedFile = $data[$fieldName];
+        foreach ($storedCart as $item) {
+            $cartItem = new CartProduct(
+                $item->id,
+                $item->name,
+                $item->unitPrice,
+                $item->quantity,
+                $item->taxRate,
+                $item->type
+            );
+            $this->cart->addItem($cartItem);
+            $this->cart->setItemQuantity($item->id, $item->quantity);
         }
+        $this->cart->getItems();
+    }
 
-        if (!$uploadedFile || $uploadedFile->getError() !== UPLOAD_ERR_OK) {
-            return null;
-        }
+    public function add(string $id, string $name, float $unitPrice, float $quantity = 1, float $taxRate = 20.0, string $type = 'product'): void
+    {
 
-        $originalName = $uploadedFile->getClientFilename() ?? 'unknown';
-        $filename     = time() . '_' . preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $originalName);
-
-        $targetPath = WWW_ROOT . 'img' . DS . $targetFolder . DS;
-        if (!is_dir($targetPath)) {
-            mkdir($targetPath, 0755, true);
-        }
-
-        $filePath = $targetPath . $filename;
-        $uploadedFile->moveTo($filePath);
-
-        if ($maxWidth !== null) {
-            $sizeInfo = @getimagesize($filePath);
-            if (!$sizeInfo) {
-                return $filename;
-            }
-
-            [$width, $height, $type] = $sizeInfo;
-
-            if ($width > $maxWidth) {
-                $ratio     = $maxWidth / $width;
-                $newWidth  = $maxWidth;
-                $newHeight = (int) ($height * $ratio);
-
-                $srcImage = match ($type) {
-                    IMAGETYPE_JPEG => imagecreatefromjpeg($filePath),
-                    IMAGETYPE_PNG  => imagecreatefrompng($filePath),
-                    IMAGETYPE_GIF  => imagecreatefromgif($filePath),
-                    default        => null,
-                };
-
-                if ($srcImage !== null) {
-                    if ($newWidth < 1 || $newHeight < 1) {
-                        return $filename; // nedá sa vytvoriť obrazok
-                    }
-                    $dstImage = imagecreatetruecolor($newWidth, $newHeight);
-                    if ($dstImage === false) {
-                        return $filename;
-                    }
-
-                    if ($type === IMAGETYPE_PNG || $type === IMAGETYPE_GIF) {
-                        $transparent = imagecolorallocatealpha($dstImage, 0, 0, 0, 127);
-                        if ($transparent !== false) {
-                            imagecolortransparent($dstImage, $transparent);
-                        }
-                        imagealphablending($dstImage, false);
-                        imagesavealpha($dstImage, true);
-                    }
-
-                    if ($srcImage) {
-                        imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
-                    }
-
-                    match ($type) {
-                        IMAGETYPE_JPEG => imagejpeg($dstImage, $filePath, 90),
-                        IMAGETYPE_PNG  => imagepng($dstImage, $filePath),
-                        IMAGETYPE_GIF  => imagegif($dstImage, $filePath),
-                        default        => null,
-                    };
-
-                    if ($srcImage) {
-                        imagedestroy($srcImage);
-                    }
-                    imagedestroy($dstImage);
-                }
+        $existingProductCartQuantity = 0;
+        foreach ($this->cart->getItems() as $item) {
+            if ($item->getCartId() == $id) {
+                $existingProductCartQuantity = $item->getCartQuantity();
             }
         }
+        $newQuantity = $quantity + $existingProductCartQuantity;
+        if ($existingProductCartQuantity > 0) {
+            $this->cart->setItemQuantity($id, $newQuantity);
+        } else {
+            $cartItem = new CartProduct(
+                $id,
+                $name,
+                $unitPrice,
+                $quantity,
+                $taxRate,
+                $type
+            );
+            $this->cart->addItem($cartItem);
+        }
+        $this->persist();
+    }
 
-        return $filename;
+    public function clean(): void
+    {
+        $this->cart = new Cart();
+        $this->persist();
+    }
+
+    public function remove(string $id): void
+    {
+        $this->cart->removeItem($id);
+        $this->persist();
+    }
+
+    public function all(): array
+    {
+        return $this->cart->getItems();
+    }
+
+    private function persist(): void
+    {
+        $items = [];
+        foreach ($this->cart->getItems() as $item) {
+            $items[$item->getCartId()] = [
+                'id'        => $item->getCartId(),
+                'name'      => $item->getCartName(),
+                'unitPrice' => $item->getUnitPrice(),
+                'quantity'  => $item->getCartQuantity(),
+                'taxRate'   => $item->getTaxRate(),
+                'type'      => $item->getCartType(),
+            ];
+        }
+        $this->session->write('Cart', $items);
     }
 
 }

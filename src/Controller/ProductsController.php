@@ -57,7 +57,7 @@ class ProductsController extends AuthController
         $this->set(compact('products', 'category'));
     }
 
-    public function view(?int $id = null): void
+    public function product(?int $id = null): void
     {
         if (!$id) {
             throw new NotFoundException(__('Produkt nebol nájdený'));

@@ -7,7 +7,6 @@ class SeedSampleData extends AbstractMigration
 {
     public function up(): void
     {
-        // --- Categories ---
         $categories = [
             ['name' => 'Horské bicykle'],
             ['name' => 'Cestné bicykle'],
@@ -18,14 +17,13 @@ class SeedSampleData extends AbstractMigration
 
         $this->table('categories')->insert($categories)->saveData();
 
-        // --- Products ---
         $products = [];
         for ($i = 1; $i <= 50; $i++) {
             $products[] = [
                 'name' => "Bicykel model $i",
                 'price' => rand(200, 3000),
                 'vat' => 20.0,
-                'image' => null,
+                'image' => 'https://dummyimage.com/800x520/f7f7f7/111111.jpg&text=RSHOP%20' . $i,
                 'created' => date('Y-m-d H:i:s'),
                 'modified' => date('Y-m-d H:i:s')
             ];
@@ -33,7 +31,6 @@ class SeedSampleData extends AbstractMigration
 
         $this->table('products')->insert($products)->saveData();
 
-        // --- Products-Categories join table ---
         $productsCategories = [];
         for ($productId = 1; $productId <= 50; $productId++) {
             $catIds = [rand(1,5)];

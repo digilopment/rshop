@@ -28,6 +28,17 @@ return function (RouteBuilder $routes): void {
                 '_method' => ['GET']
             ]
         );
+        $builder->connect(
+            '/eshop/product/{id}-{slug}',
+            ['controller' => 'Products', 'action' => 'product'],
+            [
+                'pass' => ['id', 'slug'],
+                'id' => '\d+',
+                'slug' => '[a-z0-9\-]+',
+                '_name' => 'product',
+                '_method' => ['GET']
+            ]
+        );
 
         $builder->connect('/users/me', ['controller' => 'Users', 'action' => 'me']);
         $builder->connect('/users/me/edit', ['controller' => 'Users', 'action' => 'edit']);
@@ -35,12 +46,19 @@ return function (RouteBuilder $routes): void {
         $builder->fallbacks();
     });
 
+    $routes->prefix('Api', function ($routes) {
+        $routes->setExtensions(['json']);
+        $routes->post('/cart', ['controller' => 'Cart', 'action' => 'add']);
+    });
+
     $routes->prefix('Admin', function (RouteBuilder $builder) {
+        $builder->connect('/', ['controller' => 'Home', 'action' => 'index']);
+
         $builder->connect('/products', ['controller' => 'Products', 'action' => 'index']);
         $builder->connect('/products/add', ['controller' => 'Products', 'action' => 'add']);
         $builder->connect('/products/edit/{id}', ['controller' => 'Products', 'action' => 'edit'], ['pass' => ['id'], 'id' => '\d+']);
         $builder->connect('/products/delete/{id}', ['controller' => 'Products', 'action' => 'delete'], ['pass' => ['id'], 'id' => '\d+']);
-        
+
         $builder->connect('/categories', ['controller' => 'Categories', 'action' => 'index']);
         $builder->connect('/categories/add', ['controller' => 'Categories', 'action' => 'add']);
         $builder->connect('/categories/edit/{id}', ['controller' => 'Categories', 'action' => 'edit'], ['pass' => ['id'], 'id' => '\d+']);

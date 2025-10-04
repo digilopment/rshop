@@ -6,7 +6,7 @@ use Cake\Utility\Text;
 /**
  * @var AppView $this
  */
-$cakeDescription = 'CakePHP: the rapid development php framework';
+$cakeDescription = 'Rshop';
 
 ?>
 <!DOCTYPE html>
@@ -28,32 +28,55 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 
         <!-- Top bar -->
         <div class="container">
-            <div class="bg-light py-2 border-bottom px-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center py-2 px-3 mb-3 border-bottom bg-white shadow-sm rounded">
 
-                <div>
+                <div class="d-flex align-items-center gap-2 text-muted small">
                     <?php if ($this->Identity->isLoggedIn()): ?>
                         Prihlásený ako 
                         <strong>
                             <?=
                             $this->Html->link(
                                 h($this->Identity->get('login')),
-                                ['controller' => 'Users', 'action' => 'me', 'prefix' => false]
+                                ['controller' => 'Users', 'action' => 'me', 'prefix' => false],
+                                ['class' => 'text-dark text-decoration-none']
                             )
 
                             ?>
                         </strong>
+                        <span class="mx-1">|</span>
+                        <?=
+                        $this->Html->link(
+                            'Odhlásiť',
+                            ['controller' => 'Users', 'action' => 'logout', 'prefix' => false],
+                            ['class' => 'text-decoration-none text-danger']
+                        )
+
+                        ?>
                     <?php endif; ?>
                 </div>
 
                 <div>
                     <?php if ($this->Identity->isLoggedIn()): ?>
-                        <?= $this->Html->link('Kategórie', ['prefix' => 'Admin', 'controller' => 'Categories', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
-                        <?= $this->Html->link('Produkty', ['prefix' => 'Admin', 'controller' => 'Products', 'action' => 'index'], ['class' => 'me-3 text-decoration-none']) ?>
-                        <?= $this->Html->link('Logout', ['controller' => 'Users', 'action' => 'logout', 'prefix' => false], ['class' => 'text-decoration-none']) ?>
+                        <?=
+                        $this->Html->link(
+                            'Admin',
+                            ['prefix' => 'Admin', 'controller' => 'Home', 'action' => 'index'],
+                            ['class' => 'btn btn-sm btn-outline-primary']
+                        )
+
+                        ?>
                     <?php else: ?>
-                        <?= $this->Html->link('Login', ['controller' => 'Users', 'action' => 'login', 'prefix' => false], ['class' => 'text-decoration-none']) ?>
+                        <?=
+                        $this->Html->link(
+                            'Login',
+                            ['controller' => 'Users', 'action' => 'login', 'prefix' => false],
+                            ['class' => 'btn btn-sm btn-primary']
+                        )
+
+                        ?>
                     <?php endif; ?>
                 </div>
+
             </div>
         </div>
 
@@ -68,12 +91,17 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <div class="collapse navbar-collapse" id="navbarCategories">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <?php
+                        $currentController = $this->request->getParam('controller');
+                        $currentAction = $this->request->getParam('action');
+                        $currentCategoryId = $this->request->getParam('pass')[0] ?? null;
+
                         foreach ($categories as $category):
                             $slug = strtolower(Text::slug($category->name));
+                            $isActive = ($currentController === 'Products' && $currentAction === 'category' && $currentCategoryId == $category->id) ? 'active' : '';
 
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="<?=
+                                <a class="nav-link <?= $isActive ?>" href="<?=
                                 $this->Url->build([
                                     'controller' => 'Products',
                                     'action' => 'category',
@@ -88,6 +116,18 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                             </li>
                         <?php endforeach; ?>
                     </ul>
+
+
+                    <a href="<?= $this->Url->build(['controller' => 'Cart', 'action' => 'index', 'prefix' => false]) ?>" class="text-decoration-none">
+                        <div class="cart-summary d-flex align-items-center ms-lg-4 text-white">
+                            <i class="fas fa-shopping-cart me-2"></i>
+                            <span class="cart-info">🛒
+                                <span class="cart-total fw-bold"><?= h($total) ?> €</span>
+                                <small class="cart-count ms-1">(<?= count($items) ?> položiek)</small>
+                            </span>
+                        </div>
+                    </a>
+
                 </div>
             </div>
         </nav>
@@ -106,6 +146,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </footer>
 
         <!-- Bootstrap JS (optional, for navbar toggle) -->
+        <?= $this->Html->script(['jquery/jquery-3.6.0.min']) ?>
         <?= $this->Html->script(['bootstrap.bundle.min']) ?>
+        <?= $this->Html->script(['main']) ?>
     </body>
 </html>

@@ -4,26 +4,34 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Cake\ORM\Table;
+use App\Service\CartService;
 
-class HomeController extends AuthController
+class CartController extends AppController
 {
-    protected Table $Products;
-    protected Table $Categories;
+    protected CartService $cartService;
 
     public function initialize(): void
     {
         parent::initialize();
-
-        $this->Products   = $this->fetchTable('Products');
-        $this->Categories = $this->fetchTable('Categories');
+        $this->cartService = new CartService($this->getRequest()->getSession());
     }
 
-    public function index(): void
+    public function index()
     {
-        $products   = $this->Products->find()->all()->toArray();
-        $categories = $this->Categories->find()->all()->toArray();
+        $this->set('items', $this->cartService->all());
+        $this->set('total', $this->cartService->cart->getTotal()->asFloat());
+        $this->set('totalWithoutTax', $this->cartService->cart->getSubtotal()->asFloat());
+    }
 
-        $this->set(compact('products', 'categories'));
+    public function clean()
+    {
+        $this->cartService->clean();
+        $this->redirect(['action' => 'index']);
+    }
+
+    public function remove($id)
+    {
+        $this->cartService->remove($id);
+        $this->redirect(['action' => 'index']);
     }
 }
