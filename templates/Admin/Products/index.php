@@ -8,33 +8,62 @@
             <tr>
                 <th>#</th>
                 <th>Názov</th>
-                <th>Cena</th>
-                <th>VAT</th>
+                <th>Cena bez DPH</th>
+                <th>Cena s DPH</th>
                 <th>Kategórie</th>
                 <th>Akcie</th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($products as $product): ?>
+                <?php
+                $slug = strtolower(\Cake\Utility\Text::slug($product->name));
+
+                $detailUrl = $this->Url->build([
+                    'controller' => 'Products',
+                    'action' => 'product',
+                    $product->id,
+                    $slug,
+                    'prefix' => false
+                ]);
+
+                ?>
                 <tr>
                     <td><?= h($product->id) ?></td>
-                    <td><?= h($product->name) ?></td>
-                    <td><?= h($product->price) ?></td>
-                    <td><?= h($product->vat) ?></td>
+                    <td>
+                        <a target="_blank" href="<?= $detailUrl ?>"><?= $product->name ?></a>
+                    </td>
+                    <td><?= $product->price ?> €</td>
+                    <td><?= $product->price * (1 + $product->vat / 100) ?> €</td>
                     <td>
                         <?php if (!empty($product->categories)): ?>
-                            <?= implode(', ', collection($product->categories)->extract('name')->toList()) ?>
+                            <?php foreach ($product->categories as $cat): ?>
+                                <?php
+
+                                $catUrl = $this->Url->build([
+                                    'controller' => 'Categories',
+                                    'action' => 'edit',
+                                    $cat->id
+                                ]);
+
+                                ?>
+                                <a href="<?= $catUrl ?>"><?= $cat->name ?></a>
+                                <?= end($product->categories) !== $cat ? ', ' : '' ?>
+                            <?php endforeach; ?>
                         <?php else: ?>
                             -
                         <?php endif; ?>
                     </td>
                     <td>
                         <?= $this->Html->link('Edit', ['action' => 'edit', $product->id], ['class' => 'btn btn-sm btn-primary']) ?>
-                        <?= $this->Form->postLink(
+                        <?=
+                        $this->Form->postLink(
                             'Delete',
                             ['action' => 'delete', $product->id],
                             ['confirm' => 'Naozaj chcete vymazať tento produkt?', 'class' => 'btn btn-sm btn-danger']
-                        ) ?>
+                        )
+
+                        ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

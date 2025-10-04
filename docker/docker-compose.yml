@@ -22,7 +22,8 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        VERSION: bod-3
+        VERSION: bod-4
+        CONFIG: app_local.php
     container_name: rshop-app
     ports:
       - "8885:80"

@@ -53,9 +53,10 @@ class ProductsController extends AuthController
             if ($this->Products->save($product)) {
                 $this->Flash->success('Produkt bol uložený.');
                 $this->redirect(['action' => 'index']);
-            }
+            } else {
 
-            $this->Flash->error('Nepodarilo sa uložiť produkt.');
+                $this->Flash->error('Nepodarilo sa uložiť produkt.');
+            }
         }
 
         $categories = $this->Categories
@@ -87,9 +88,10 @@ class ProductsController extends AuthController
 
             if ($this->Products->save($product)) {
                 $this->Flash->success('Produkt bol aktualizovaný.');
-                $this->redirect(['action' => 'index']);
+                $this->redirect($this->getRequest()->getRequestTarget());
+            } else {
+                $this->Flash->error('Nepodarilo sa aktualizovať produkt.');
             }
-            $this->Flash->error('Nepodarilo sa aktualizovať produkt.');
         }
 
         $categories = $this->Categories->find('list')->toArray();

@@ -1,0 +1,36 @@
+#!/bin/bash
+# push-only.sh
+# Použitie: ./push-only.sh <dockerhub-username> <dockerhub-password> <image> <tag>
+
+if [ "$#" -ne 4 ]; then
+    echo "Použitie: $0 <username> <password> <image> <tag>"
+    exit 1
+fi
+
+USERNAME="$1"
+PASSWORD="$2"
+IMAGE="$3"
+TAG="$4"
+FULL_IMAGE="$USERNAME/$IMAGE:$TAG"
+
+# Login do Docker Hub
+echo "🔑 Prihlasujem sa do Docker Hub..."
+echo "$PASSWORD" | docker login --username "$USERNAME" --password-stdin
+if [ $? -ne 0 ]; then
+    echo "❌ Docker login zlyhal"
+    exit 1
+fi
+
+# Tagovanie existujúceho image
+echo "🏷 Tagujem image $IMAGE:$TAG ako $FULL_IMAGE..."
+docker tag "$IMAGE:$TAG" "$FULL_IMAGE"
+
+# Push na Docker Hub
+echo "📤 Pushujem image na Docker Hub..."
+docker push "$FULL_IMAGE"
+if [ $? -eq 0 ]; then
+    echo "✅ Image bol úspešne pushnutý: $FULL_IMAGE"
+else
+    echo "❌ Push zlyhal"
+    exit 1
+fi

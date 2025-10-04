@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Service\CartService;
 
-class CartController extends AppController
+class CartController extends AuthController
 {
     protected CartService $cartService;
 

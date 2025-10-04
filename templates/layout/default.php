@@ -19,6 +19,7 @@ $cakeDescription = 'Rshop';
 
         <!-- Bootstrap 5 + custom CSS -->
         <?= $this->Html->css(['bootstrap.min', 'custom']) ?>
+        <?= $this->Html->css(['cake', 'custom']) ?>
 
         <?= $this->fetch('meta') ?>
         <?= $this->fetch('css') ?>
@@ -70,7 +71,15 @@ $cakeDescription = 'Rshop';
                         $this->Html->link(
                             'Login',
                             ['controller' => 'Users', 'action' => 'login', 'prefix' => false],
-                            ['class' => 'btn btn-sm btn-primary']
+                            ['class' => 'btn btn-sm btn-outline-primary']
+                        )
+
+                        ?>
+                        <?=
+                        $this->Html->link(
+                            'Registrácia',
+                            ['controller' => 'Users', 'action' => 'register', 'prefix' => false],
+                            ['class' => 'btn btn-sm btn-outline-primary']
                         )
 
                         ?>
@@ -147,7 +156,7 @@ $cakeDescription = 'Rshop';
 
         <!-- Bootstrap JS (optional, for navbar toggle) -->
         <?= $this->Html->script(['jquery/jquery-3.6.0.min']) ?>
-        <?= $this->Html->script(['bootstrap.bundle.min']) ?>
+        <?= $this->Html->script(['bootstrap/bootstrap.min']) ?>
         <?= $this->Html->script(['main']) ?>
     </body>
 </html>

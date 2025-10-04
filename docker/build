@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Konfigurácia
+CONTAINER_NAME="rshop-app"
+DOCKERFILE="Dockerfile"
+BUILD_CONTEXT="."
+VERSION="bod-4"
+CONFIG="app_db_ws.php"
+PORT="8885:80"
+
+# Zastavenie a vymazanie existujúceho containeru
+if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
+    echo "⚠ Stopping and removing existing container $CONTAINER_NAME..."
+    docker stop "$CONTAINER_NAME"
+    docker rm "$CONTAINER_NAME"
+fi
+
+# Odstránenie existujúceho image
+if [ "$(docker images -q $CONTAINER_NAME)" ]; then
+    echo "🗑 Removing existing image $CONTAINER_NAME..."
+    docker rmi "$CONTAINER_NAME:latest"
+fi
+
+# Build nového image
+echo "🛠 Building Docker image for $CONTAINER_NAME..."
+docker build \
+    --file "$DOCKERFILE" \
+    --build-arg VERSION="$VERSION" \
+    --build-arg CONFIG="$CONFIG" \
+    -t "$CONTAINER_NAME:latest" \
+    "$BUILD_CONTEXT"
+
+if [ $? -ne 0 ]; then
+    echo "❌ Build failed"
+    exit 1
+fi
+
+# Spustenie nového containeru
+echo "▶ Running container $CONTAINER_NAME..."
+docker run -d \
+    --name "$CONTAINER_NAME" \
+    -p "$PORT" \
+    --restart unless-stopped \
+    "$CONTAINER_NAME:latest"
+
+if [ $? -eq 0 ]; then
+    echo "✅ Container $CONTAINER_NAME is running on port ${PORT%:*}"
+else
+    echo "❌ Failed to run container $CONTAINER_NAME"
+fi

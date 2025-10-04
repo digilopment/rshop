@@ -1,7 +1,9 @@
 FROM ubuntu:22.04
 
 ARG VERSION
+ARG CONFIG
 ENV VERSION=${VERSION}
+ENV CONFIG=${CONFIG}
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update & základné balíky
@@ -49,7 +51,7 @@ WORKDIR /var/www/app
 
 # Composer install
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-COPY ./app_local.php /var/www/app/config/app_local.php
+COPY ./${CONFIG} /var/www/app/config/app_local.php
 
 # Konfigurácia nginx
 RUN rm /etc/nginx/sites-enabled/default
@@ -57,6 +59,8 @@ COPY ./nginx.conf /etc/nginx/sites-enabled/rshop.conf
 
 # Nastavenie práv
 RUN chown -R www-data:www-data /var/www/app/tmp /var/www/app/logs
+
+RUN chmod 0777 -R /var/www/app/webroot
 
 # Expose porty
 EXPOSE 80

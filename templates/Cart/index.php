@@ -70,7 +70,7 @@
             <h4>Spolu: <?= $total ?>€ <br/><small><small><small>bez DPH: <?= $totalWithoutTax ?>€</small></small></small></h4>
 
             <div>
-                <?= $this->Html->link('Pokračovať v nákupe', ['controller' => 'Products', 'action' => 'index'], ['class' => 'btn btn-primary me-2']) ?>
+                <?= $this->Html->link('Pokračovať v nákupe', ['controller' => 'Home', 'action' => 'index'], ['class' => 'btn btn-primary me-2']) ?>
                 <?= $this->Html->link('Vymazať košík', ['action' => 'clean'], ['class' => 'btn btn-danger']) ?>
             </div>
         </div>
