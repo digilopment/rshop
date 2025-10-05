@@ -3,15 +3,17 @@ declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org).
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
+ *
+ * @see          https://cakephp.org CakePHP(tm) Project
  * @since         0.10.8
+ *
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -44,6 +46,7 @@ use Cake\Mailer\Mailer;
 use Cake\Mailer\TransportFactory;
 use Cake\Routing\Router;
 use Cake\Utility\Security;
+
 use function Cake\Core\env;
 
 /*
@@ -91,7 +94,7 @@ try {
  * Load an environment local configuration file to provide overrides to your configuration.
  * Notice: For security reasons app_local.php **should not** be included in your git repo.
  */
-if (file_exists(CONFIG . 'app_local.php')) {
+if (\file_exists(CONFIG . 'app_local.php')) {
     Configure::load('app_local', 'default');
 }
 
@@ -107,18 +110,18 @@ if (Configure::read('debug')) {
  * Set the default server timezone. Using UTC makes time calculations / conversions easier.
  * Check https://php.net/manual/en/timezones.php for list of valid timezone strings.
  */
-date_default_timezone_set(Configure::read('App.defaultTimezone'));
+\date_default_timezone_set(Configure::read('App.defaultTimezone'));
 
 /*
  * Configure the mbstring extension to use the correct encoding.
  */
-mb_internal_encoding(Configure::read('App.encoding'));
+\mb_internal_encoding(Configure::read('App.encoding'));
 
 /*
  * Set the default locale. This controls how dates, number and currency is
  * formatted and sets the default language to use for translations.
  */
-ini_set('intl.default_locale', Configure::read('App.defaultLocale'));
+\ini_set('intl.default_locale', Configure::read('App.defaultLocale'));
 
 /*
  * Register application error and exception handlers.
@@ -138,6 +141,7 @@ if (PHP_SAPI === 'cli') {
     if (Configure::check('Log.debug')) {
         Configure::write('Log.debug.file', 'cli-debug');
     }
+
     if (Configure::check('Log.error')) {
         Configure::write('Log.error.file', 'cli-error');
     }
@@ -149,6 +153,7 @@ if (PHP_SAPI === 'cli') {
  * Can be very useful for CLI/Commandline applications.
  */
 $fullBaseUrl = Configure::read('App.fullBaseUrl');
+
 if (!$fullBaseUrl) {
     /*
      * When using proxies or load balancers, SSL/TLS connections might
@@ -161,16 +166,19 @@ if (!$fullBaseUrl) {
     $trustProxy = false;
 
     $s = null;
+
     if (env('HTTPS') || ($trustProxy && env('HTTP_X_FORWARDED_PROTO') === 'https')) {
         $s = 's';
     }
 
     $httpHost = env('HTTP_HOST');
+
     if ($httpHost) {
         $fullBaseUrl = 'http' . $s . '://' . $httpHost;
     }
     unset($httpHost, $s);
 }
+
 if ($fullBaseUrl) {
     Router::fullBaseUrl($fullBaseUrl);
 }

@@ -19,18 +19,18 @@ class AppController extends Controller
     {
         parent::initialize();
         $this->loadComponent('Flash');
-        $this->Categories  = $this->fetchTable('Categories');
+        $this->Categories = $this->fetchTable('Categories');
         $this->cartService = new CartService(new Session());
     }
 
     public function beforeRender(EventInterface $event): void
     {
         parent::beforeRender($event);
-        $categories      = $this->Categories->find()->all()->toArray();
-        $items           = $this->cartService->all();
-        $total           = $this->cartService->cart->getTotal()->asFloat();
+        $categories = $this->Categories->find()->all()->toArray();
+        $items = $this->cartService->all();
+        $total = $this->cartService->cart->getTotal()->asFloat();
         $totalWithoutTax = $this->cartService->cart->getSubtotal()->asFloat();
 
-        $this->set(compact('categories', 'items', 'total', 'totalWithoutTax'));
+        $this->set(\compact('categories', 'items', 'total', 'totalWithoutTax'));
     }
 }

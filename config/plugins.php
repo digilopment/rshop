@@ -14,23 +14,25 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
+ *
+ * @see          https://cakephp.org CakePHP(tm) Project
  * @since         5.0.0
+ *
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
- /*
-  * List of plugins to load in the form `PluginName` => `[configuration options]`.
-  *
-  * Available options:
-  * - onlyDebug: Load the plugin only in debug mode. Default false.
-  * - onlyCli: Load the plugin only in CLI mode. Default false.
-  * - optional: Do not throw an exception if the plugin is not found. Default false.
-  */
+/*
+ * List of plugins to load in the form `PluginName` => `[configuration options]`.
+ *
+ * Available options:
+ * - onlyDebug: Load the plugin only in debug mode. Default false.
+ * - onlyCli: Load the plugin only in CLI mode. Default false.
+ * - optional: Do not throw an exception if the plugin is not found. Default false.
+ */
 return [
     'DebugKit' => ['onlyDebug' => true],
     'Bake' => ['onlyCli' => true, 'optional' => true],
-    'Migrations' => ['onlyCli' => true],
+    'Migrations' => ['onlyCli' => true]
 
     // Additional plugins here
 ];

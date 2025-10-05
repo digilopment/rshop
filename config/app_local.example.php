@@ -18,7 +18,7 @@ return [
      * Development Mode:
      * true: Errors and warnings shown.
      */
-    'debug' => filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
+    'debug' => \filter_var(env('DEBUG', true), FILTER_VALIDATE_BOOLEAN),
 
     /*
      * Security and encryption configuration
@@ -28,7 +28,7 @@ return [
      *   You should treat it as extremely sensitive data.
      */
     'Security' => [
-        'salt' => env('SECURITY_SALT', '__SALT__'),
+        'salt' => env('SECURITY_SALT', '__SALT__')
     ],
 
     /*
@@ -45,7 +45,7 @@ return [
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
-            //'port' => 'non_standard_port_number',
+            // 'port' => 'non_standard_port_number',
 
             'username' => 'my_app',
             'password' => 'secret',
@@ -55,12 +55,12 @@ return [
              * If not using the default 'public' schema with the PostgreSQL driver
              * set it here.
              */
-            //'schema' => 'myapp',
+            // 'schema' => 'myapp',
 
             /*
              * You can use a DSN string to set the entire configuration
              */
-            'url' => env('DATABASE_URL', null),
+            'url' => env('DATABASE_URL', null)
         ],
 
         /*
@@ -68,13 +68,13 @@ return [
          */
         'test' => [
             'host' => 'localhost',
-            //'port' => 'non_standard_port_number',
+            // 'port' => 'non_standard_port_number',
             'username' => 'my_app',
             'password' => 'secret',
             'database' => 'test_myapp',
-            //'schema' => 'myapp',
-            'url' => env('DATABASE_TEST_URL', 'sqlite://127.0.0.1/tmp/tests.sqlite'),
-        ],
+            // 'schema' => 'myapp',
+            'url' => env('DATABASE_TEST_URL', 'sqlite://127.0.0.1/tmp/tests.sqlite')
+        ]
     ],
 
     /*
@@ -91,7 +91,7 @@ return [
             'username' => null,
             'password' => null,
             'client' => null,
-            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
-        ],
-    ],
+            'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null)
+        ]
+    ]
 ];

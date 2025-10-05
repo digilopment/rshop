@@ -9,19 +9,17 @@ class Product extends Entity
 {
     // Polia, ktoré môžu byť masívne priradené
     protected array $_accessible = [
-        '*'  => true,
-        'id' => false, // id nechceme aby sa prepisovalo
+        '*' => true,
+        'id' => false // id nechceme aby sa prepisovalo
     ];
 
     /**
-     * Automatické počítanie ceny s DPH
-     *
-     * @return float|null
+     * Automatické počítanie ceny s DPH.
      */
     protected function _getPriceWithVat(): ?float
     {
         $price = $this->get('price');
-        $vat   = $this->get('vat');
+        $vat = $this->get('vat');
 
         if ($price === null || $vat === null) {
             return null;

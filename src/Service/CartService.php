@@ -17,12 +17,12 @@ class CartService
     {
         $this->session = $session;
 
-        $this->session      = $session;
-        $user               = $this->session->read('Auth') ?? null;
-        $userId             = $user['id']                  ?? 'guest';
+        $this->session = $session;
+        $user = $this->session->read('Auth') ?? null;
+        $userId = $user['id'] ?? 'guest';
         $this->userStorrage = 'Cart' . $userId;
 
-        $storedCart = json_decode((string) json_encode($this->session->read($this->userStorrage))) ?? [];
+        $storedCart = \json_decode((string) \json_encode($this->session->read($this->userStorrage))) ?? [];
         $this->cart = new Cart();
         $this->cart->setPricesWithVat(false);
 
@@ -43,14 +43,15 @@ class CartService
 
     public function add(string $id, string $name, float $unitPrice, float $quantity = 1, float $taxRate = 20.0, string $type = 'product'): void
     {
-
         $existingProductCartQuantity = 0;
+
         foreach ($this->cart->getItems() as $item) {
             if ($item->getCartId() == $id) {
                 $existingProductCartQuantity = $item->getCartQuantity();
             }
         }
         $newQuantity = $quantity + $existingProductCartQuantity;
+
         if ($existingProductCartQuantity > 0) {
             $this->cart->setItemQuantity($id, $newQuantity);
         } else {
@@ -90,17 +91,17 @@ class CartService
     private function persist(): void
     {
         $items = [];
+
         foreach ($this->cart->getItems() as $item) {
             $items[$item->getCartId()] = [
-                'id'        => $item->getCartId(),
-                'name'      => $item->getCartName(),
+                'id' => $item->getCartId(),
+                'name' => $item->getCartName(),
                 'unitPrice' => $item->getUnitPrice(),
-                'quantity'  => $item->getCartQuantity(),
-                'taxRate'   => $item->getTaxRate(),
-                'type'      => $item->getCartType(),
+                'quantity' => $item->getCartQuantity(),
+                'taxRate' => $item->getTaxRate(),
+                'type' => $item->getCartType()
             ];
         }
         $this->session->write($this->userStorrage, $items);
     }
-
 }

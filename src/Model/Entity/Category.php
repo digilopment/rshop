@@ -8,7 +8,7 @@ use Cake\ORM\Entity;
 class Category extends Entity
 {
     protected array $_accessible = [
-        '*'  => true,
-        'id' => false,
+        '*' => true,
+        'id' => false
     ];
 }

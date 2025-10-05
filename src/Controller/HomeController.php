@@ -15,15 +15,15 @@ class HomeController extends AuthController
     {
         parent::initialize();
 
-        $this->Products   = $this->fetchTable('Products');
+        $this->Products = $this->fetchTable('Products');
         $this->Categories = $this->fetchTable('Categories');
     }
 
     public function index(): void
     {
-        $products   = $this->Products->find()->all()->toArray();
+        $products = $this->Products->find()->all()->toArray();
         $categories = $this->Categories->find()->all()->toArray();
 
-        $this->set(compact('products', 'categories'));
+        $this->set(\compact('products', 'categories'));
     }
 }

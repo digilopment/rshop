@@ -9,11 +9,11 @@ class CreateUsers extends AbstractMigration
     {
         $table = $this->table('users');
         $table->addColumn('login', 'string', ['limit' => 255])
-              ->addColumn('password', 'string', ['limit' => 255])
-              ->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
-              ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'])
-              ->addIndex(['login'], ['unique' => true])
-              ->create();
+            ->addColumn('password', 'string', ['limit' => 255])
+            ->addColumn('created', 'datetime', ['default' => 'CURRENT_TIMESTAMP'])
+            ->addColumn('modified', 'datetime', ['default' => 'CURRENT_TIMESTAMP', 'update' => 'CURRENT_TIMESTAMP'])
+            ->addIndex(['login'], ['unique' => true])
+            ->create();
     }
 
     public function down(): void

@@ -18,7 +18,7 @@ class ProductsController extends AuthController
 
         $this->loadComponent('Flash');
 
-        $this->Products   = $this->fetchTable('Products');
+        $this->Products = $this->fetchTable('Products');
         $this->Categories = $this->fetchTable('Categories');
     }
 
@@ -33,13 +33,14 @@ class ProductsController extends AuthController
         }
 
         $categories = $this->Categories->find()->all();
-        $this->set(compact('products', 'categories'));
+        $this->set(\compact('products', 'categories'));
     }
 
     public function category(?int $id = null, ?string $slug = null): void
     {
         $query = $this->Products->find()
             ->contain(['Categories']);
+
         if ($id) {
             $query = $query->matching('Categories', function ($q) use ($id) {
                 return $q->where(['Categories.id' => $id]);
@@ -50,7 +51,7 @@ class ProductsController extends AuthController
         }
         $products = $query->all();
 
-        $this->set(compact('products', 'category'));
+        $this->set(\compact('products', 'category'));
     }
 
     public function product(?int $id = null): void
@@ -60,6 +61,6 @@ class ProductsController extends AuthController
         }
 
         $product = $this->Products->get($id, ['contain' => ['Categories']]);
-        $this->set(compact('product'));
+        $this->set(\compact('product'));
     }
 }

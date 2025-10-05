@@ -1,8 +1,8 @@
 <?php
 declare(strict_types=1);
 
-use Migrations\AbstractMigration;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
+use Migrations\AbstractMigration;
 
 class InsertDefaultUser extends AbstractMigration
 {
@@ -15,8 +15,8 @@ class InsertDefaultUser extends AbstractMigration
             ->insert([
                 'login' => 'rshop',
                 'password' => $password,
-                'created' => date('Y-m-d H:i:s'),
-                'modified' => date('Y-m-d H:i:s')
+                'created' => \date('Y-m-d H:i:s'),
+                'modified' => \date('Y-m-d H:i:s')
             ])
             ->saveData();
     }

@@ -30,12 +30,12 @@ class CartProduct implements CartItemInterface
         float $taxRate = 20.0,
         string $type = 'product',
     ) {
-        $this->id        = $id;
-        $this->name      = $name;
+        $this->id = $id;
+        $this->name = $name;
         $this->unitPrice = $unitPrice;
-        $this->quantity  = $quantity;
-        $this->taxRate   = $taxRate;
-        $this->type      = $type;
+        $this->quantity = $quantity;
+        $this->taxRate = $taxRate;
+        $this->type = $type;
     }
 
     public function getCartId(): string

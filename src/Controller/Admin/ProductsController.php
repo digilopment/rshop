@@ -10,25 +10,24 @@ use Laminas\Diactoros\UploadedFile;
 
 class ProductsController extends AuthController
 {
-    private UploadImageService $UploadImage;
-
     protected Table $Categories;
 
     protected Table $Products;
+    private UploadImageService $UploadImage;
 
     public function initialize(): void
     {
         parent::initialize();
 
-        $this->Products    = $this->fetchTable('Products');
-        $this->Categories  = $this->fetchTable('Categories');
+        $this->Products = $this->fetchTable('Products');
+        $this->Categories = $this->fetchTable('Categories');
         $this->UploadImage = new UploadImageService();
     }
 
     public function index(): void
     {
         $products = $this->Products->find()->contain(['Categories']);
-        $this->set(compact('products'));
+        $this->set(\compact('products'));
     }
 
     public function add(): void
@@ -40,6 +39,7 @@ class ProductsController extends AuthController
 
             if (!empty($data['image']) && $data['image'] instanceof UploadedFile) {
                 $uploadedFilename = $this->UploadImage->upload($data, 'image', 'products', 500);
+
                 if ($uploadedFilename) {
                     $data['image'] = $uploadedFilename;
                 } else {
@@ -48,7 +48,7 @@ class ProductsController extends AuthController
             }
 
             $product = $this->Products->patchEntity($product, $data, [
-                'associated' => ['Categories'],
+                'associated' => ['Categories']
             ]);
 
             if ($this->Products->save($product)) {
@@ -63,12 +63,13 @@ class ProductsController extends AuthController
             ->find('list', ['keyField' => 'id', 'valueField' => 'name'])
             ->toArray();
 
-        $this->set(compact('product', 'categories'));
+        $this->set(\compact('product', 'categories'));
     }
 
     public function edit(int $id): void
     {
         $product = $this->Products->get($id, ['contain' => ['Categories']]);
+
         if ($this->request->is(['post', 'put', 'patch'])) {
             $data = $this->request->getData();
 
@@ -83,7 +84,7 @@ class ProductsController extends AuthController
             }
 
             $product = $this->Products->patchEntity($product, $data, [
-                'associated' => ['Categories'],
+                'associated' => ['Categories']
             ]);
 
             if ($this->Products->save($product)) {
@@ -95,13 +96,14 @@ class ProductsController extends AuthController
         }
 
         $categories = $this->Categories->find('list')->toArray();
-        $this->set(compact('product', 'categories'));
+        $this->set(\compact('product', 'categories'));
     }
 
     public function delete(int $id): void
     {
         $this->request->allowMethod(['post', 'delete']);
         $product = $this->Products->get($id);
+
         if ($this->Products->delete($product)) {
             $this->Flash->success('Produkt bol zmazaný.');
         } else {

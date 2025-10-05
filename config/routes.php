@@ -67,4 +67,3 @@ return function (RouteBuilder $routes): void {
         $builder->fallbacks(DashedRoute::class);
     });
 };
-

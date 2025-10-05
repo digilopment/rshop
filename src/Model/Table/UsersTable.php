@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use ArrayObject;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Datasource\EntityInterface;
 use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use RuntimeException;
 
 class UsersTable extends Table
 {
@@ -25,23 +23,22 @@ class UsersTable extends Table
     }
 
     /**
-     * Before save callback
+     * Before save callback.
      *
      * @param \Cake\Event\EventInterface<\App\Model\Table\UsersTable> $event
-     * @param \Cake\Datasource\EntityInterface $entity
-     * @param \ArrayObject<string, mixed> $options
+     * @param \ArrayObject<string, mixed>                             $options
      */
-    public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    public function beforeSave(EventInterface $event, EntityInterface $entity, \ArrayObject $options): void
     {
         /** @var \App\Model\Entity\User $entity */
         if ($entity->isDirty('password')) {
-            if (!class_exists(DefaultPasswordHasher::class)) {
-                throw new RuntimeException('DefaultPasswordHasher class not found. Run `composer require cakephp/authentication`.');
+            if (!\class_exists(DefaultPasswordHasher::class)) {
+                throw new \RuntimeException('DefaultPasswordHasher class not found. Run `composer require cakephp/authentication`.');
             }
 
             if (isset($entity->password)) {
-                $hasher           = new DefaultPasswordHasher();
-                $entity->password = $hasher->hash((string)$entity->password);
+                $hasher = new DefaultPasswordHasher();
+                $entity->password = $hasher->hash((string) $entity->password);
             }
         }
     }
@@ -61,16 +58,16 @@ class UsersTable extends Table
             ->notEmptyString('password', 'Zadajte heslo')
             ->add('password', 'complexity', [
                 'rule' => function ($value, $context) {
-                    return (bool)preg_match('/^(?=.*[A-Z])(?=.*\d).+$/', (string)$value);
+                    return (bool) \preg_match('/^(?=.*[A-Z])(?=.*\d).+$/', (string) $value);
                 },
-                'message' => 'Heslo musí obsahovať aspoň jedno veľké písmeno a jedno číslo',
-        ]);
+                'message' => 'Heslo musí obsahovať aspoň jedno veľké písmeno a jedno číslo'
+            ]);
 
         $validator
             ->add('password_confirm', 'compare', [
-                'rule'    => ['compareWith', 'password'],
-                'message' => 'Heslá sa nezhodujú',
-        ]);
+                'rule' => ['compareWith', 'password'],
+                'message' => 'Heslá sa nezhodujú'
+            ]);
 
         return $validator;
     }

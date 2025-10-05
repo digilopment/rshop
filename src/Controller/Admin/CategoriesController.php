@@ -21,14 +21,16 @@ class CategoriesController extends AuthController
     public function index(): void
     {
         $categories = $this->Categories->find()->all();
-        $this->set(compact('categories'));
+        $this->set(\compact('categories'));
     }
 
     public function add(): ?Response
     {
         $category = $this->Categories->newEmptyEntity();
+
         if ($this->request->is('post')) {
             $category = $this->Categories->patchEntity($category, $this->request->getData());
+
             if ($this->Categories->save($category)) {
                 $this->Flash->success('Kategória bola uložená.');
 
@@ -36,7 +38,7 @@ class CategoriesController extends AuthController
             }
             $this->Flash->error('Nepodarilo sa uložiť kategóriu.');
         }
-        $this->set(compact('category'));
+        $this->set(\compact('category'));
 
         return null;
     }
@@ -47,6 +49,7 @@ class CategoriesController extends AuthController
 
         if ($this->request->is(['post', 'put'])) {
             $category = $this->Categories->patchEntity($category, $this->request->getData());
+
             if ($this->Categories->save($category)) {
                 $this->Flash->success('Kategória bola aktualizovaná.');
 
@@ -55,7 +58,7 @@ class CategoriesController extends AuthController
             $this->Flash->error('Nepodarilo sa aktualizovať kategóriu.');
         }
 
-        $this->set(compact('category'));
+        $this->set(\compact('category'));
 
         return null;
     }

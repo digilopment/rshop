@@ -9,7 +9,7 @@ class CreateCategories extends AbstractMigration
     {
         $table = $this->table('categories');
         $table->addColumn('name', 'string', ['limit' => 255])
-              ->create();
+            ->create();
     }
 
     public function down(): void

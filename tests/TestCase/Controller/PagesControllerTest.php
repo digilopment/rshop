@@ -3,15 +3,17 @@ declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org).
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
- * @link          https://cakephp.org CakePHP(tm) Project
+ *
+ * @see          https://cakephp.org CakePHP(tm) Project
  * @since         1.2.0
+ *
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
@@ -23,16 +25,14 @@ use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 
 /**
- * PagesControllerTest class
+ * PagesControllerTest class.
  */
 class PagesControllerTest extends TestCase
 {
     use IntegrationTestTrait;
 
     /**
-     * testDisplay method
-     *
-     * @return void
+     * testDisplay method.
      */
     public function testDisplay()
     {
@@ -44,9 +44,7 @@ class PagesControllerTest extends TestCase
     }
 
     /**
-     * Test that missing template renders 404 page in production
-     *
-     * @return void
+     * Test that missing template renders 404 page in production.
      */
     public function testMissingTemplate()
     {
@@ -58,9 +56,7 @@ class PagesControllerTest extends TestCase
     }
 
     /**
-     * Test that missing template in debug mode renders missing_template error page
-     *
-     * @return void
+     * Test that missing template in debug mode renders missing_template error page.
      */
     public function testMissingTemplateInDebug()
     {
@@ -74,9 +70,7 @@ class PagesControllerTest extends TestCase
     }
 
     /**
-     * Test directory traversal protection
-     *
-     * @return void
+     * Test directory traversal protection.
      */
     public function testDirectoryTraversalProtection()
     {
@@ -87,8 +81,6 @@ class PagesControllerTest extends TestCase
 
     /**
      * Test that CSRF protection is applied to page rendering.
-     *
-     * @return void
      */
     public function testCsrfAppliedError()
     {
@@ -100,8 +92,6 @@ class PagesControllerTest extends TestCase
 
     /**
      * Test that CSRF protection is applied to page rendering.
-     *
-     * @return void
      */
     public function testCsrfAppliedOk()
     {
