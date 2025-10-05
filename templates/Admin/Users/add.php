@@ -12,11 +12,11 @@
 </div>
 <div class="mb-3">
     <?= $this->Form->control('password', [
-    'class' => 'form-control',
-    'label' => 'Heslo',
-    'type' => 'password',
-    'placeholder' => 'Zadajte heslo'
-]);
+        'class' => 'form-control',
+        'label' => 'Heslo',
+        'type' => 'password',
+        'placeholder' => 'Zadajte heslo'
+    ]);
 
 ?>
 </div>
