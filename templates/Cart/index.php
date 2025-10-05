@@ -76,7 +76,6 @@
             <div class="d-flex gap-2 flex-wrap">
                 <?= $this->Html->link('Pokračovať v nákupe', ['controller' => 'Home', 'action' => 'index'], ['class' => 'btn btn-primary fw-semibold']); ?>
                 <?= $this->Html->link('Vymazať košík', ['action' => 'clean'], ['class' => 'btn btn-outline-danger fw-semibold']); ?>
-                <?= $this->Html->link('Prejsť k objednávke', ['controller' => 'Orders', 'action' => 'checkout'], ['class' => 'btn btn-success fw-semibold']); ?>
             </div>
         </div>
 
