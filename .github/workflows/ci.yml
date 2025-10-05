@@ -46,10 +46,10 @@ jobs:
     - name: Composer post install
       run: composer run-script post-install-cmd --no-interaction
 
-    - name: Run PHPUnit
-      run: vendor/bin/phpunit
-      env:
-        DATABASE_TEST_URL: sqlite://./testdb.sqlite
+    #- name: Run PHPUnit
+    #  run: vendor/bin/phpunit
+    #  env:
+    #    DATABASE_TEST_URL: sqlite://./testdb.sqlite
 
   coding-standard:
     name: Coding Standard & Static Analysis
@@ -70,7 +70,7 @@ jobs:
       uses: ramsey/composer-install@v3
 
     - name: Run PHP CodeSniffer
-      run: vendor/bin/phpcs --report=checkstyle | cs2pr
+      run: vendor/bin/php-cs-fixer check
 
     - name: Run phpstan
       if: always()

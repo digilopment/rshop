@@ -27,13 +27,12 @@ class UsersTable extends Table
     /**
      * Before save callback
      *
-     * @param \Cake\Event\EventInterface<\App\Model\Table\User> $event
-     * @param \App\Model\Table\User $entity
+     * @param \Cake\Event\EventInterface<\App\Model\Table\UsersTable> $event
+     * @param \Cake\Datasource\EntityInterface $entity
      * @param \ArrayObject<string, mixed> $options
      */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
     {
-
         /** @var \App\Model\Entity\User $entity */
         if ($entity->isDirty('password')) {
             if (!class_exists(DefaultPasswordHasher::class)) {
