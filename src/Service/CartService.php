@@ -10,14 +10,20 @@ use Riesenia\Cart\Cart;
 class CartService
 {
     public Cart $cart;
-
     private Session $session;
+    private string $userStorrage;
 
     public function __construct(Session $session)
     {
         $this->session = $session;
-        $storedCart    = json_decode((string)json_encode($this->session->read('Cart'))) ?? [];
-        $this->cart    = new Cart();
+
+        $this->session      = $session;
+        $user               = $this->session->read('Auth') ?? null;
+        $userId             = $user['id']                  ?? 'guest';
+        $this->userStorrage = 'Cart' . $userId;
+
+        $storedCart = json_decode((string) json_encode($this->session->read($this->userStorrage))) ?? [];
+        $this->cart = new Cart();
         $this->cart->setPricesWithVat(false);
 
         foreach ($storedCart as $item) {
@@ -94,6 +100,7 @@ class CartService
                 'type'      => $item->getCartType(),
             ];
         }
-        $this->session->write('Cart', $items);
+        $this->session->write($this->userStorrage, $items);
     }
+
 }

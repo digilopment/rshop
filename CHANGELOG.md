@@ -21,6 +21,8 @@
 - Pridaný docker-compose.yml so službami rshop-db (MySQL 8.0) a rshop-app.
 - Konfigurácia zabezpečuje automatickú inicializáciu databázy, aplikáciu migrácií a spustenie appky.
 - Zabezpečené poradie štartu služieb – appka sa spustí až po zdravej DB.
+- Integracia `riesenia/cart` nakupneho košíka
+- Rozdelenie a ukladanie stavu košíka podla userID, každý user ma vlastný storrage do ktorého sa môže kedykolvek vrátit a načítat stav košíku
 
 ### Fixed
 - Riešené chyby: `Subject must be an instance of AuthenticationServiceInterface`, `Missing Table class`, hashovanie hesla, IdentityHelper trait chýbajúci.
