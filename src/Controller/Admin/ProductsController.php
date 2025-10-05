@@ -12,7 +12,9 @@ use Laminas\Diactoros\UploadedFile;
 class ProductsController extends AuthController
 {
     private UploadImageService $UploadImage;
+
     protected Table $Categories;
+
     protected Table $Products;
 
     public function initialize(): void
@@ -47,14 +49,13 @@ class ProductsController extends AuthController
             }
 
             $product = $this->Products->patchEntity($product, $data, [
-                'associated' => ['Categories']
+                'associated' => ['Categories'],
             ]);
 
             if ($this->Products->save($product)) {
                 $this->Flash->success('Produkt bol uložený.');
                 $this->redirect(['action' => 'index']);
             } else {
-
                 $this->Flash->error('Nepodarilo sa uložiť produkt.');
             }
         }
@@ -83,7 +84,7 @@ class ProductsController extends AuthController
             }
 
             $product = $this->Products->patchEntity($product, $data, [
-                'associated' => ['Categories']
+                'associated' => ['Categories'],
             ]);
 
             if ($this->Products->save($product)) {
@@ -109,5 +110,4 @@ class ProductsController extends AuthController
         }
         $this->redirect(['action' => 'index']);
     }
-
 }

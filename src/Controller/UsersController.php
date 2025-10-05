@@ -121,5 +121,4 @@ class UsersController extends AppController
         $this->set(compact('user'));
         return null;
     }
-
 }

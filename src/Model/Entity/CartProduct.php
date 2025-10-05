@@ -10,11 +10,17 @@ use Riesenia\Cart\CartItemInterface;
 class CartProduct implements CartItemInterface
 {
     protected string $id;
+
     protected string $type;
+
     protected string $name;
+
     protected float $quantity;
+
     protected float $unitPrice;
+
     protected float $taxRate;
+
     protected ?CartContext $context = null;
 
     public function __construct(

@@ -9,6 +9,7 @@ use Cake\ORM\Table;
 class HomeController extends AuthController
 {
     protected Table $Products;
+
     protected Table $Categories;
 
     public function initialize(): void

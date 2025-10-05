@@ -20,7 +20,6 @@ class ErrorController extends AppController
 
     public function beforeFilter(EventInterface $event): void
     {
-
     }
 
     public function beforeRender(EventInterface $event): void
@@ -31,7 +30,5 @@ class ErrorController extends AppController
 
     public function afterFilter(EventInterface $event): void
     {
-
     }
-
 }

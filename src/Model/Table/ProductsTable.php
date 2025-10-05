@@ -48,5 +48,4 @@ class ProductsTable extends Table
 
         return $validator;
     }
-
 }

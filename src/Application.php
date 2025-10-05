@@ -41,7 +41,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             ->add(new BodyParserMiddleware())
             ->add(new AuthenticationMiddleware($this));
 
-
         return $middlewareQueue;
     }
 
@@ -50,7 +49,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         $service = new AuthenticationService();
 
         $service->loadIdentifier('Authentication.Password', [
-            'fields' => ['username' => 'login', 'password' => 'password']
+            'fields' => ['username' => 'login', 'password' => 'password'],
         ]);
 
         $service->loadAuthenticator('Authentication.Session');
@@ -66,5 +65,4 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
         // prázdne, môžeš pridať dependency injection services
     }
-
 }

@@ -13,6 +13,7 @@ use Cake\ORM\Table;
 class ProductsController extends AuthController
 {
     protected Table $Products;
+
     protected Table $Categories;
 
     public function initialize(): void
@@ -28,7 +29,6 @@ class ProductsController extends AuthController
     public function index(?int $categoryId = null, ?string $slug = null): void
     {
         if ($categoryId) {
-
             $products = $this->Products->find()
                 ->where(['category_id' => $categoryId])
                 ->all();
@@ -66,5 +66,4 @@ class ProductsController extends AuthController
         $product = $this->Products->get($id, ['contain' => ['Categories']]);
         $this->set(compact('product'));
     }
-
 }

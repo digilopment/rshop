@@ -42,5 +42,4 @@ class AppView extends View
         parent::initialize();
         $this->loadHelper('Identity');
     }
-
 }

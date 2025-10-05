@@ -29,7 +29,7 @@ class UsersTable extends Table
     /**
      * Before save callback
      *
-     * @param EventInterface<\App\Model\Entity\User> $event
+     * @param EventInterface<User> $event
      * @param User $entity
      * @param ArrayObject<string, mixed> $options
      */
@@ -84,5 +84,4 @@ class UsersTable extends Table
 
         return $rules;
     }
-
 }

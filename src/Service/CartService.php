@@ -11,6 +11,7 @@ use Riesenia\Cart\Cart;
 class CartService
 {
     public Cart $cart;
+
     private Session $session;
 
     public function __construct(Session $session)
@@ -72,6 +73,7 @@ class CartService
         $this->cart->removeItem($id);
         $this->persist();
     }
+
     /**
      * @return array<string, mixed>
      */
@@ -95,5 +97,4 @@ class CartService
         }
         $this->session->write('Cart', $items);
     }
-
 }

@@ -11,6 +11,7 @@ use Cake\ORM\Table;
 class CategoriesController extends AuthController
 {
     protected Table $Categories;
+
     public function initialize(): void
     {
         parent::initialize();

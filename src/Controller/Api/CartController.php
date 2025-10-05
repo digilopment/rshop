@@ -38,11 +38,11 @@ class CartController extends AppController
 
         $this->cartService->add($id, $name, $unitPrice, $quantity, $taxRate);
 
-
         return $this->response
                 ->withType('application/json')
                 ->withStringBody((string)json_encode($this->calculateSummary($name . ' pridaný do košíka')));
     }
+
     /**
      * @return array<string, mixed>
      */
@@ -64,8 +64,7 @@ class CartController extends AppController
                     'quantity' => $item->getCartQuantity(),
                     'taxRate'  => $item->getTaxRate(),
                 ];
-            }, $items)
+            }, $items),
         ];
     }
-
 }

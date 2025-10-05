@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use Authentication\Identity;
 use Cake\View\Helper;
 
 /**
@@ -26,7 +27,7 @@ class IdentityHelper extends Helper
     /**
      * Vráti objekt prihláseného používateľa alebo null
      *
-     * @return \Authentication\Identity|null
+     * @return Identity|null
      */
     public function getIdentity()
     {

@@ -13,6 +13,7 @@ use Cake\ORM\Table;
 class AppController extends Controller
 {
     protected Table $Categories;
+
     protected CartService $cartService;
 
     public function initialize(): void
@@ -33,5 +34,4 @@ class AppController extends Controller
 
         $this->set(compact('categories', 'items', 'total', 'totalWithoutTax'));
     }
-
 }

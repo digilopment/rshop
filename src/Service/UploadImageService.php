@@ -101,5 +101,4 @@ class UploadImageService
 
         return $filename;
     }
-
 }

@@ -10,11 +10,10 @@ use Cake\ORM\Table;
 class HomeController extends AuthController
 {
     protected Table $Categories;
+
     protected Table $Products;
 
     public function index(): void
     {
-
     }
-
 }
