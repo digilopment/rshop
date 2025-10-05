@@ -105,12 +105,12 @@ foreach ($categories as $category) {
     ?>
                             <li class="nav-item">
                                 <a class="nav-link <?= $isActive; ?>" href="<?= $this->Url->build([
-            'controller' => 'Products',
-            'action' => 'category',
-            'prefix' => false,
-            $category->id,
-            $slug
-        ]);
+                                    'controller' => 'Products',
+                                    'action' => 'category',
+                                    'prefix' => false,
+                                    $category->id,
+                                    $slug
+                                ]);
 
     ?>">
                                        <?= h($category->name); ?>

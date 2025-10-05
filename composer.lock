@@ -256,16 +256,16 @@
         },
         {
             "name": "cakephp/migrations",
-            "version": "4.7.2",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/migrations.git",
-                "reference": "69732d98d84b99f9b0a8af94de7dd9ac242aeaff"
+                "reference": "c79c0c349ce15839f1b112fbd2518510fb00e108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/migrations/zipball/69732d98d84b99f9b0a8af94de7dd9ac242aeaff",
-                "reference": "69732d98d84b99f9b0a8af94de7dd9ac242aeaff",
+                "url": "https://api.github.com/repos/cakephp/migrations/zipball/c79c0c349ce15839f1b112fbd2518510fb00e108",
+                "reference": "c79c0c349ce15839f1b112fbd2518510fb00e108",
                 "shasum": ""
             },
             "require": {
@@ -313,7 +313,7 @@
                 "issues": "https://github.com/cakephp/migrations/issues",
                 "source": "https://github.com/cakephp/migrations"
             },
-            "time": "2025-09-01T04:46:50+00:00"
+            "time": "2025-10-05T00:37:14+00:00"
         },
         {
             "name": "cakephp/plugin-installer",
@@ -2325,16 +2325,16 @@
         },
         {
             "name": "cakephp/bake",
-            "version": "3.4.0",
+            "version": "3.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/bake.git",
-                "reference": "a0d2b96486dc5b8547b8e358cd1e218b9ed07d9d"
+                "reference": "ee9ecbe789c06428632dc14b47b6995949ace8b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/bake/zipball/a0d2b96486dc5b8547b8e358cd1e218b9ed07d9d",
-                "reference": "a0d2b96486dc5b8547b8e358cd1e218b9ed07d9d",
+                "url": "https://api.github.com/repos/cakephp/bake/zipball/ee9ecbe789c06428632dc14b47b6995949ace8b6",
+                "reference": "ee9ecbe789c06428632dc14b47b6995949ace8b6",
                 "shasum": ""
             },
             "require": {
@@ -2347,7 +2347,7 @@
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "^5.0.0",
                 "cakephp/debug_kit": "^5.0.0",
-                "phpunit/phpunit": "^10.5.5 || ^11.1.3"
+                "phpunit/phpunit": "^10.5.40 || ^11.5.20 || ^12.2.4"
             },
             "type": "cakephp-plugin",
             "autoload": {
@@ -2378,7 +2378,7 @@
                 "issues": "https://github.com/cakephp/bake/issues",
                 "source": "https://github.com/cakephp/bake"
             },
-            "time": "2025-06-25T19:18:09+00:00"
+            "time": "2025-10-05T16:52:58+00:00"
         },
         {
             "name": "cakephp/cakephp-codesniffer",
@@ -2436,16 +2436,16 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "5.1.3",
+            "version": "5.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "6c33eb2993d790d98a27a47a74a10330d699ac07"
+                "reference": "291e9c9098bb4fa1afea2a259f1133f7236da7dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/6c33eb2993d790d98a27a47a74a10330d699ac07",
-                "reference": "6c33eb2993d790d98a27a47a74a10330d699ac07",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/291e9c9098bb4fa1afea2a259f1133f7236da7dd",
+                "reference": "291e9c9098bb4fa1afea2a259f1133f7236da7dd",
                 "shasum": ""
             },
             "require": {
@@ -2497,7 +2497,7 @@
                 "issues": "https://github.com/cakephp/debug_kit/issues",
                 "source": "https://github.com/cakephp/debug_kit"
             },
-            "time": "2025-08-03T15:06:57+00:00"
+            "time": "2025-10-04T15:39:13+00:00"
         },
         {
             "name": "cakephp/twig-view",

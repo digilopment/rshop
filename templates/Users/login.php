@@ -23,11 +23,11 @@
 
                         <div class="mb-3">
                             <?= $this->Form->control('password', [
-                        'type' => 'password',
-                        'label' => 'Heslo',
-                        'class' => 'form-control',
-                        'required' => true
-                    ]);
+                                'type' => 'password',
+                                'label' => 'Heslo',
+                                'class' => 'form-control',
+                                'required' => true
+                            ]);
 
                     ?>
                         </div>

@@ -21,22 +21,22 @@
 
                         <div class="mb-3">
                             <?= $this->Form->control('password', [
-                        'type' => 'password',
-                        'label' => 'Heslo',
-                        'required' => true,
-                        'class' => 'form-control'
-                    ]);
+                                'type' => 'password',
+                                'label' => 'Heslo',
+                                'required' => true,
+                                'class' => 'form-control'
+                            ]);
 
                     ?>
                         </div>
 
                         <div class="mb-3">
                             <?= $this->Form->control('password_confirm', [
-                        'type' => 'password',
-                        'label' => 'Potvrďte heslo',
-                        'required' => true,
-                        'class' => 'form-control'
-                    ]);
+                                'type' => 'password',
+                                'label' => 'Potvrďte heslo',
+                                'required' => true,
+                                'class' => 'form-control'
+                            ]);
 
                     ?>
                         </div>
