@@ -38,7 +38,7 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registrácia prebehla úspešne.'));
-                $this->redirect(['action' => 'login']);
+                $this->redirect(['action' => 'login', 'prefix' => false]);
 
                 return;
             }
@@ -74,14 +74,14 @@ class UsersController extends AppController
             $this->Authentication->logout();
         }
 
-        return $this->redirect(['action' => 'login']);
+        return $this->redirect(['action' => 'login', 'prefix' => false]);
     }
 
     public function me(): ?Response
     {
         $result = $this->Authentication->getResult();
         if (!$result || !$result->isValid()) {
-            return $this->redirect(['action' => 'login']);
+            return $this->redirect(['action' => 'login', 'prefix' => false]);
         }
 
         /** @var \App\Model\Entity\User $userEntity */
@@ -98,7 +98,7 @@ class UsersController extends AppController
     {
         $result = $this->Authentication->getResult();
         if (!$result || !$result->isValid()) {
-            return $this->redirect(['action' => 'login']);
+            return $this->redirect(['action' => 'login', 'prefix' => false]);
         }
 
         /** @var \App\Model\Entity\User $userEntity */
@@ -111,7 +111,7 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Údaje boli uložené.'));
 
-                return $this->redirect(['action' => 'me']);
+                return $this->redirect(['action' => 'me', 'prefix' => false]);
             }
             $this->Flash->error(__('Chyba pri ukladaní údajov.'));
         }

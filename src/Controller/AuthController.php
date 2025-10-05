@@ -26,7 +26,7 @@ class AuthController extends AppController
         parent::beforeFilter($event);
         $result = $this->Authentication->getResult();
         if (!$result || !$result->isValid()) {
-            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+            return $this->redirect(['controller' => 'Users', 'action' => 'login', 'prefix' => false]);
         }
 
         return null;
