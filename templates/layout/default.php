@@ -19,7 +19,6 @@ $cakeDescription = 'Rshop';
 
         <!-- Bootstrap 5 + cake CSS -->
         <?= $this->Html->css(['bootstrap.min', 'cake']) ?>
-        <?= $this->Html->css(['cake']) ?>
 
         <?= $this->fetch('meta') ?>
         <?= $this->fetch('css') ?>
