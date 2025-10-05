@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\View\Helper;
 
-use Authentication\Identity;
 use Cake\View\Helper;
 
 /**
@@ -27,9 +25,9 @@ class IdentityHelper extends Helper
     /**
      * Vráti objekt prihláseného používateľa alebo null
      *
-     * @return Identity|null
+     * @return \Authentication\Identity|null
      */
-    public function getIdentity()
+    public function getIdentity(): ?Identity
     {
         return $this->getView()->getRequest()->getAttribute('identity');
     }
@@ -40,12 +38,13 @@ class IdentityHelper extends Helper
      * @param string $field
      * @return mixed|null
      */
-    public function get(string $field)
+    public function get(string $field): mixed
     {
         $identity = $this->getIdentity();
         if ($identity) {
             return $identity->get($field);
         }
+
         return null;
     }
 }

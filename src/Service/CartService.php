@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -28,7 +27,7 @@ class CartService
                 $item->unitPrice,
                 $item->quantity,
                 $item->taxRate,
-                $item->type
+                $item->type,
             );
             $this->cart->addItem($cartItem);
             $this->cart->setItemQuantity($item->id, $item->quantity);
@@ -55,7 +54,7 @@ class CartService
                 $unitPrice,
                 $quantity,
                 $taxRate,
-                $type
+                $type,
             );
             $this->cart->addItem($cartItem);
         }

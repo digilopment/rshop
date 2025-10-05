@@ -1,20 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Model\Entity\User;
-use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
-
+use Cake\ORM\Table;
 use function Cake\I18n\__;
 
-use Cake\ORM\Table;
-
 /**
- * @property AuthenticationComponent $Authentication
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  */
 class UsersController extends AppController
 {
@@ -45,6 +40,7 @@ class UsersController extends AppController
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Registrácia prebehla úspešne.'));
                 $this->redirect(['action' => 'login']);
+
                 return;
             }
             $this->Flash->error(__('Nepodarilo sa uložiť používateľa.'));
@@ -62,6 +58,7 @@ class UsersController extends AppController
         if ($result && $result->isValid()) {
             $target = $this->Authentication->getLoginRedirect() ?? '/';
             $this->redirect($target);
+
             return;
         }
 
@@ -88,12 +85,13 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'login']);
         }
 
-        /** @var User $userEntity */
+        /** @var \App\Model\Entity\User $userEntity */
         $userEntity = $result->getData();
         $userId     = $userEntity->id;
         $user       = $this->Users->get($userId);
 
         $this->set(compact('user'));
+
         return null;
     }
 
@@ -104,7 +102,7 @@ class UsersController extends AppController
             return $this->redirect(['action' => 'login']);
         }
 
-        /** @var User $userEntity */
+        /** @var \App\Model\Entity\User $userEntity */
         $userEntity = $result->getData();
         $userId     = $userEntity->id;
         $user       = $this->Users->get($userId);
@@ -113,12 +111,14 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->getRequest()->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Údaje boli uložené.'));
+
                 return $this->redirect(['action' => 'me']);
             }
             $this->Flash->error(__('Chyba pri ukladaní údajov.'));
         }
 
         $this->set(compact('user'));
+
         return null;
     }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
  * @since         3.3.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Test\TestCase;
 
 use App\Application;
@@ -71,7 +72,7 @@ class ApplicationTest extends TestCase
      */
     public function testMiddleware()
     {
-        $app = new Application(dirname(__DIR__, 2) . '/config');
+        $app        = new Application(dirname(__DIR__, 2) . '/config');
         $middleware = new MiddlewareQueue();
 
         $middleware = $app->middleware($middleware);

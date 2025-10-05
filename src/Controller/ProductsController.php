@@ -1,14 +1,11 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
 use Cake\Http\Exception\NotFoundException;
-
-use function Cake\I18n\__;
-
 use Cake\ORM\Table;
+use function Cake\I18n\__;
 
 class ProductsController extends AuthController
 {

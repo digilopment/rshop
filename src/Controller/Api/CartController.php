@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Api;
@@ -30,11 +29,11 @@ class CartController extends AppController
             throw new BadRequestException('Neplatné parametre');
         }
 
-        $id        = (string) $data['id'];
+        $id        = (string)$data['id'];
         $name      = $data['name'];
-        $unitPrice = (float) $data['unitPrice'];
-        $taxRate   = isset($data['taxRate']) ? (float) $data['taxRate'] : 20.0;
-        $quantity  = isset($data['quantity']) ? (float) $data['quantity'] : 1.0;
+        $unitPrice = (float)$data['unitPrice'];
+        $taxRate   = isset($data['taxRate']) ? (float)$data['taxRate'] : 20.0;
+        $quantity  = isset($data['quantity']) ? (float)$data['quantity'] : 1.0;
 
         $this->cartService->add($id, $name, $unitPrice, $quantity, $taxRate);
 
@@ -49,6 +48,7 @@ class CartController extends AppController
     private function calculateSummary(string $message): array
     {
         $items = $this->cartService->all();
+
         return [
             'response' => [
                 'message' => $message,

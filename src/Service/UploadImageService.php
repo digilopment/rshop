@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Service;
@@ -11,7 +10,7 @@ class UploadImageService
     /**
      * Upload a single image and resize it if needed
      *
-     * @param array<string, mixed>|UploadedFile $data Uploaded file array or instance
+     * @param \Laminas\Diactoros\UploadedFile|array<string, mixed> $data Uploaded file array or instance
      * @param string $fieldName
      * @param string $targetFolder
      * @param int|null $maxWidth
@@ -53,7 +52,7 @@ class UploadImageService
             if ($width > $maxWidth) {
                 $ratio     = $maxWidth / $width;
                 $newWidth  = $maxWidth;
-                $newHeight = (int) ($height * $ratio);
+                $newHeight = (int)($height * $ratio);
 
                 $srcImage = match ($type) {
                     IMAGETYPE_JPEG => imagecreatefromjpeg($filePath),

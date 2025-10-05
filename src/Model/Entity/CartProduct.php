@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -29,7 +28,7 @@ class CartProduct implements CartItemInterface
         float $unitPrice,
         float $quantity = 1,
         float $taxRate = 20.0,
-        string $type = 'product'
+        string $type = 'product',
     ) {
         $this->id        = $id;
         $this->name      = $name;

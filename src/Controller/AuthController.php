@@ -1,16 +1,14 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller;
 
-use Authentication\Controller\Component\AuthenticationComponent;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\ORM\Table;
 
 /**
- * @property AuthenticationComponent $Authentication
+ * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
  */
 class AuthController extends AppController
 {
@@ -30,6 +28,7 @@ class AuthController extends AppController
         if (!$result || !$result->isValid()) {
             return $this->redirect(['controller' => 'Users', 'action' => 'login']);
         }
+
         return null;
     }
 }

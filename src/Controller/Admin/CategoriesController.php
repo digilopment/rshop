@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Controller\Admin;
@@ -32,11 +31,13 @@ class CategoriesController extends AuthController
             $category = $this->Categories->patchEntity($category, $this->request->getData());
             if ($this->Categories->save($category)) {
                 $this->Flash->success('Kategória bola uložená.');
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error('Nepodarilo sa uložiť kategóriu.');
         }
         $this->set(compact('category'));
+
         return null;
     }
 
@@ -48,12 +49,14 @@ class CategoriesController extends AuthController
             $category = $this->Categories->patchEntity($category, $this->request->getData());
             if ($this->Categories->save($category)) {
                 $this->Flash->success('Kategória bola aktualizovaná.');
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error('Nepodarilo sa aktualizovať kategóriu.');
         }
 
         $this->set(compact('category'));
+
         return null;
     }
 

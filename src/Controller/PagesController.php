@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -37,13 +36,13 @@ class PagesController extends AppController
      * Displays a view
      *
      * @param string ...$path Path segments.
-     * @return Response|null
-     * @throws ForbiddenException When a directory traversal attempt.
-     * @throws MissingTemplateException When the view file could not
-     *                                  be found and in debug mode.
-     * @throws NotFoundException When the view file could not
-     *                           be found and not in debug mode.
-     * @throws MissingTemplateException In debug mode.
+     * @return \Cake\Http\Response|null
+     * @throws \Cake\Http\Exception\ForbiddenException When a directory traversal attempt.
+     * @throws \Cake\View\Exception\MissingTemplateException When the view file could not
+     *                                                       be found and in debug mode.
+     * @throws \Cake\Http\Exception\NotFoundException When the view file could not
+     *                                                be found and not in debug mode.
+     * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
     public function display(string ...$path): ?Response
     {

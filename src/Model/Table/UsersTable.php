@@ -1,10 +1,8 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Model\Entity\User;
 use ArrayObject;
 use Authentication\PasswordHasher\DefaultPasswordHasher;
 use Cake\Datasource\EntityInterface;
@@ -29,14 +27,14 @@ class UsersTable extends Table
     /**
      * Before save callback
      *
-     * @param EventInterface<User> $event
-     * @param User $entity
-     * @param ArrayObject<string, mixed> $options
+     * @param \Cake\Event\EventInterface<\App\Model\Table\User> $event
+     * @param \App\Model\Table\User $entity
+     * @param \ArrayObject<string, mixed> $options
      */
     public function beforeSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
     {
 
-        /** @var User $entity */
+        /** @var \App\Model\Entity\User $entity */
         if ($entity->isDirty('password')) {
             if (!class_exists(DefaultPasswordHasher::class)) {
                 throw new RuntimeException('DefaultPasswordHasher class not found. Run `composer require cakephp/authentication`.');
@@ -44,7 +42,7 @@ class UsersTable extends Table
 
             if (isset($entity->password)) {
                 $hasher           = new DefaultPasswordHasher();
-                $entity->password = $hasher->hash((string) $entity->password);
+                $entity->password = $hasher->hash((string)$entity->password);
             }
         }
     }
@@ -64,7 +62,7 @@ class UsersTable extends Table
             ->notEmptyString('password', 'Zadajte heslo')
             ->add('password', 'complexity', [
                 'rule' => function ($value, $context) {
-                    return (bool) preg_match('/^(?=.*[A-Z])(?=.*\d).+$/', (string) $value);
+                    return (bool)preg_match('/^(?=.*[A-Z])(?=.*\d).+$/', (string)$value);
                 },
                 'message' => 'Heslo musí obsahovať aspoň jedno veľké písmeno a jedno číslo',
         ]);
