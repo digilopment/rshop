@@ -1,4 +1,14 @@
 $(document).ready(function () {
+
+    function formatPrice(value) {
+        return new Intl.NumberFormat('sk-SK', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(value);
+    }
+
     $('.add-to-cart').on('click', function (e) {
         e.preventDefault();
 
@@ -28,7 +38,7 @@ $(document).ready(function () {
                     alert(data.response.message);
                 }
 
-                $('.cart-total').text(data.total + ' €');
+                $('.cart-total').text(formatPrice(data.total));
                 $('.cart-count').text('(' + data.count + ' položiek)');
             },
             error: function (xhr, status, error) {

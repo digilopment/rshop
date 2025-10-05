@@ -1,55 +1,65 @@
-<div class="container mt-4">
-    <div class="row">
+<div class="container py-5">
+    <div class="row g-4 align-items-center">
+
+        <!-- Obrázok produktu -->
         <div class="col-md-5">
-            <img src="<?= $this->Image->product($product->image, 'eshopProduct'); ?>" alt="<?= h($product->name); ?>" class="img-fluid rounded">
+            <div class="position-relative product-image-wrapper shadow-sm rounded-4 overflow-hidden">
+                <img 
+                    src="<?= $this->Image->product($product->image, 'eshopProduct'); ?>" 
+                    alt="<?= h($product->name); ?>" 
+                    class="img-fluid product-detail-img"
+                >
+                <span class="badge bg-primary position-absolute top-0 start-0 m-3 px-3 py-2 rounded-pill shadow-sm">
+                    NOVÉ
+                </span>
+            </div>
         </div>
 
+        <!-- Detail produktu -->
         <div class="col-md-7">
-            <h1><?= h($product->name); ?></h1>
-            <p class="fs-4 fw-bold"><?= $product->price; ?> € <small class="text-muted">(+<?= $product->vat; ?>% DPH)</small></p>
+            <h1 class="fw-bold mb-3"><?= h($product->name); ?></h1>
 
-            <?php
+            <p class="fs-4 fw-bold text-success mb-2">
+                <?= h($this->Price->display($product->price, $product->vat)->withVat()); ?> €
+                <small class="text-muted fs-6">bez DPH <?= h($this->Price->display($product->price, $product->vat)->withoutVat()); ?> €</small>
+            </p>
 
-            use Cake\Utility\Text;
-
-            if (!empty($product->categories)) {
-                ?>
-                <p>
+            <?php if (!empty($product->categories)) { ?>
+                <p class="mb-3">
                     <strong>Kategórie:</strong>
-                    <?php
-                    foreach ($product->categories as $category) {
-                        $slug = \strtolower(Text::slug($category->name));
-
-                        ?>
-                        <a href="<?= $this->Url->build([
+                    <?php foreach ($product->categories as $category) {
+                        $slug = \strtolower(\Cake\Utility\Text::slug($category->name));
+                        $url = $this->Url->build([
                             'controller' => 'Products',
                             'action' => 'category',
                             'prefix' => false,
                             $category->id,
                             $slug
                         ]);
-
-                        ?>" class="badge bg-secondary text-decoration-none me-1">
-                               <?= h($category->name); ?>
+                        ?>
+                        <a href="<?= $url; ?>" class="badge bg-secondary text-decoration-none me-1 mb-1">
+                            <?= h($category->name); ?>
                         </a>
                     <?php } ?>
                 </p>
             <?php } ?>
 
-            <p><?= h($product->description); ?></p>
+            <p class="text-muted mb-4"><?= h($product->description); ?></p>
 
-            <button class="btn btn-primary add-to-cart"
-                    data-id="<?= $product->id; ?>"
-                    data-name="<?= h($product->name); ?>"
-                    data-price="<?= $product->price; ?>"
-                    data-vat="<?= $product->vat; ?>">
-                <i class="fas fa-shopping-cart me-2"></i> Pridať do košíka
-            </button>
+            <div class="d-flex flex-wrap gap-3">
+                <button class="btn btn-lg btn-primary add-to-cart fw-semibold"
+                        data-id="<?= $product->id; ?>"
+                        data-name="<?= h($product->name); ?>"
+                        data-price="<?= $product->price; ?>"
+                        data-vat="<?= $product->vat; ?>">
+                    <i class="bi bi-cart-plus me-2"></i> Do košíka
+                </button>
 
-            <!-- Feedback po pridaní -->
-            <div class="mt-2 add-to-cart-feedback text-success" style="display:none;">
-                Produkt bol pridaný do košíka!
+                <a href="<?= $this->Url->build(['controller' => 'Home', 'action' => 'index', 'prefix' => false]); ?>" class="btn btn-outline-secondary btn-lg fw-semibold">
+                    Späť na produkty
+                </a>
             </div>
+           
         </div>
     </div>
 </div>

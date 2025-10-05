@@ -1,0 +1,35 @@
+.product-card {
+    transition: transform .2s ease, box-shadow .2s ease;
+    background: linear-gradient(180deg, #fff, #f8f9fa);
+}
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+.product-img {
+    transition: transform .3s ease;
+}
+.product-card:hover .product-img {
+    transform: scale(1.05);
+}
+.badge {
+    font-size: .75rem;
+    letter-spacing: .05em;
+}
+
+.product-detail-img {
+    transition: transform 0.3s ease;
+}
+.product-image-wrapper:hover .product-detail-img {
+    transform: scale(1.05);
+}
+.product-image-wrapper {
+    background: linear-gradient(180deg, #fff, #f8f9fa);
+}
+.add-to-cart-feedback {
+    border-radius: .5rem;
+}
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}

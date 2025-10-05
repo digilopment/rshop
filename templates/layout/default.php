@@ -18,7 +18,7 @@ $cakeDescription = 'Rshop';
         <?= $this->Html->meta('icon'); ?>
 
         <!-- Bootstrap 5 + cake CSS -->
-        <?= $this->Html->css(['bootstrap.min', 'cake']); ?>
+        <?= $this->Html->css(['bootstrap.min', 'cake', 'custom']); ?>
 
         <?= $this->fetch('meta'); ?>
         <?= $this->fetch('css'); ?>
@@ -124,7 +124,7 @@ foreach ($categories as $category) {
                         <div class="cart-summary d-flex align-items-center ms-lg-4 text-white">
                             <i class="fas fa-shopping-cart me-2"></i>
                             <span class="cart-info">🛒
-                                <span class="cart-total fw-bold"><?= h($total); ?> €</span>
+                                <span class="cart-total fw-bold"><?= h($this->Price->display($total, false, true)->withVat()); ?> €</span>
                                 <small class="cart-count ms-1">(<?= \count($items); ?> položiek)</small>
                             </span>
                         </div>
