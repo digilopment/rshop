@@ -16,20 +16,20 @@ class CartController extends AuthController
         $this->cartService = new CartService($this->getRequest()->getSession());
     }
 
-    public function index()
+    public function index(): void
     {
         $this->set('items', $this->cartService->all());
         $this->set('total', $this->cartService->cart->getTotal()->asFloat());
         $this->set('totalWithoutTax', $this->cartService->cart->getSubtotal()->asFloat());
     }
 
-    public function clean()
+    public function clean(): void
     {
         $this->cartService->clean();
         $this->redirect(['action' => 'index']);
     }
 
-    public function remove($id)
+    public function remove(string $id): void
     {
         $this->cartService->remove($id);
         $this->redirect(['action' => 'index']);

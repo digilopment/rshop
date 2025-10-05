@@ -16,7 +16,7 @@ class CartService
     public function __construct(Session $session)
     {
         $this->session = $session;
-        $storedCart    = json_decode(json_encode($this->session->read('Cart'))) ?? [];
+        $storedCart    = json_decode((string)json_encode($this->session->read('Cart'))) ?? [];
         $this->cart    = new Cart();
         $this->cart->setPricesWithVat(false);
 
@@ -72,7 +72,9 @@ class CartService
         $this->cart->removeItem($id);
         $this->persist();
     }
-
+    /**
+     * @return array<string, mixed>
+     */
     public function all(): array
     {
         return $this->cart->getItems();

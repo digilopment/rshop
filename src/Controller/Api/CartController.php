@@ -41,9 +41,11 @@ class CartController extends AppController
 
         return $this->response
                 ->withType('application/json')
-                ->withStringBody(json_encode($this->calculateSummary($name . ' pridaný do košíka')));
+                ->withStringBody((string)json_encode($this->calculateSummary($name . ' pridaný do košíka')));
     }
-
+    /**
+     * @return array<string, mixed>
+     */
     private function calculateSummary(string $message): array
     {
         $items = $this->cartService->all();
