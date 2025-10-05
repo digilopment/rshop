@@ -5,7 +5,6 @@ namespace App\Controller;
 
 use Cake\Http\Exception\NotFoundException;
 use Cake\ORM\Table;
-use function Cake\I18n\__;
 
 class ProductsController extends AuthController
 {

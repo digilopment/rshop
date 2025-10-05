@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\View\Helper;
 
+use Authentication\Identity;
 use Cake\View\Helper;
 
 /**

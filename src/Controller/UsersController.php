@@ -6,7 +6,6 @@ namespace App\Controller;
 use Cake\Event\EventInterface;
 use Cake\Http\Response;
 use Cake\ORM\Table;
-use function Cake\I18n\__;
 
 /**
  * @property \Authentication\Controller\Component\AuthenticationComponent $Authentication
