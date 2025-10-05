@@ -12,5 +12,3 @@ parameters:
         - %currentWorkingDirectory%/vendor/*
         - %currentWorkingDirectory%/tests/*
     ignoreErrors:
-        - '#Do not use magic number*#'
-        - '#has an uninitialized property*#'
