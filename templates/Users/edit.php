@@ -17,8 +17,9 @@
             'type' => 'password',
             'class' => 'form-control',
             'autocomplete' => 'new-password',
-            'required' => false,
-            'placeholder' => 'Zadajte nové heslo, ak chcete zmeniť'
+            'required' => true,
+            'placeholder' => 'Zadajte nové heslo, ak chcete zmeniť',
+            'value' => ''
         ]) ?>
     </div>
 
