@@ -37,7 +37,7 @@
 
                         ?>
                         <tr>
-                            <td><?= h($item->getCartName()) ?></td>
+                            <td><a href="<?= $detailUrl ?>"><?= h($item->getCartName()) ?></a></td>
                             <td><?= $item->getUnitPrice() ?> €</td>
                             <td><?= $item->getTaxRate() ?> €</td>
                             <td><?= $item->getUnitPrice() + ($item->getUnitPrice() / 100 * $item->getTaxRate()) ?> €</td>
