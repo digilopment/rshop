@@ -64,6 +64,18 @@ return function (RouteBuilder $routes): void {
         $builder->connect('/categories/edit/{id}', ['controller' => 'Categories', 'action' => 'edit'], ['pass' => ['id'], 'id' => '\d+']);
         $builder->connect('/categories/delete/{id}', ['controller' => 'Categories', 'action' => 'delete'], ['pass' => ['id'], 'id' => '\d+']);
 
+        $builder->connect('/admin/users', ['controller' => 'Admin/Users', 'action' => 'index']);
+        $builder->connect('/admin/users/add', ['controller' => 'Admin/Users', 'action' => 'add']);
+        $builder->connect(
+            '/admin/users/edit/{id}',
+            ['controller' => 'Admin/Users', 'action' => 'edit'],
+            ['pass' => ['id'], 'id' => '\d+']
+        );
+        $builder->connect(
+            '/admin/users/delete/{id}',
+            ['controller' => 'Admin/Users', 'action' => 'delete'],
+            ['pass' => ['id'], 'id' => '\d+']
+        );
         $builder->fallbacks(DashedRoute::class);
     });
 };

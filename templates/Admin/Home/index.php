@@ -2,6 +2,9 @@
     <h1 class="mb-4 fw-bold">Administrácia</h1>
 
     <div class="list-group">
+        <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'index', 'prefix' => 'Admin']); ?>" class="list-group-item list-group-item-action">
+            👥 Používatelia
+        </a>
         <a href="<?= $this->Url->build(['controller' => 'Products', 'prefix' => 'Admin', 'action' => 'index']); ?>" class="list-group-item list-group-item-action">
             🛒 Produkty
         </a>
@@ -12,7 +15,7 @@
             👤 Môj profil
         </a>
         <a href="<?= $this->Url->build(['controller' => 'Users', 'action' => 'logout', 'prefix' => false]); ?>" class="list-group-item list-group-item-action">
-            👤 Odhlásiť sa
+            ⏻ Odhlásiť sa
         </a>
     </div>
 </div>
