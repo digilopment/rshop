@@ -47,14 +47,21 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
         $service = new AuthenticationService();
 
-        $service->loadIdentifier('Authentication.Password', [
-            'fields' => ['username' => 'login', 'password' => 'password']
+        $service->loadAuthenticator('Authentication.Session');
+
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => [
+                'username' => 'login',
+                'password' => 'password'
+            ],
+            'loginUrl' => '/users/login'
         ]);
 
-        $service->loadAuthenticator('Authentication.Session');
-        $service->loadAuthenticator('Authentication.Form', [
-            'fields' => ['username' => 'login', 'password' => 'password'],
-            'loginUrl' => '/users/login'
+        $service->loadIdentifier('Authentication.Password', [
+            'fields' => [
+                'username' => 'login',
+                'password' => 'password'
+            ]
         ]);
 
         return $service;

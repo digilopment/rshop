@@ -46,10 +46,10 @@ jobs:
     - name: Composer post install
       run: composer run-script post-install-cmd --no-interaction
 
-    #- name: Run PHPUnit
-    #  run: vendor/bin/phpunit
-    #  env:
-    #    DATABASE_TEST_URL: sqlite://./testdb.sqlite
+    - name: Run PHPUnit
+      run: vendor/bin/phpunit
+      env:
+        DATABASE_TEST_URL: sqlite://./testdb.sqlite
 
   coding-standard:
     name: Coding Standard & Static Analysis

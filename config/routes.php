@@ -9,9 +9,6 @@ return function (RouteBuilder $routes): void {
     $routes->connect('/', ['controller' => 'Home', 'action' => 'index']);
 
     $routes->scope('/', function (RouteBuilder $builder): void {
-        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-        $builder->connect('/pages/*', 'Pages::display');
-
         $builder->connect(
             '/eshop',
             ['controller' => 'Products', 'action' => 'category'],

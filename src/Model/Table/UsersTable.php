@@ -18,7 +18,7 @@ class UsersTable extends Table
 
         $this->setTable('users');
         $this->setPrimaryKey('id');
-        $this->setDisplayField('username');
+        $this->setDisplayField('login');
         $this->addBehavior('Timestamp');
     }
 
