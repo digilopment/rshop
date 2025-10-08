@@ -1,6 +1,14 @@
 ## Change Log
 ### [Unreleased][unreleased]
 
+## [1.0.0]
+### Changed
+- Zmenená konfigurácia na sqllite
+- Upravene nastavenia v configoch
+
+### Removed
+- Odstranena create database migracia, ktora nemala opodstatnenie
+
 ## [1.0.0-alpha]
 ### Added
 - Inicializovaná CakePHP 5 aplikácia.
