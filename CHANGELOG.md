@@ -40,6 +40,7 @@
 - Odstránené problémy s logout route a nezobrazením identity používateľa.
 - Opravené SQL dotazy pre join medzi produktmi a kategóriami.
 
-[unreleased]: https://github.com/digilopment/rshop/compare/1.0.0...master
+[unreleased]: https://github.com/digilopment/rshop/compare/1.1.0...master
+[1.1.0]: https://github.com/digilopment/rshop/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/digilopment/rshop/compare/1.0.0-alpha...1.0.0
 [1.0.0-alpha]: https://github.com/digilopment/rshop/commit/412dd73...1.0.0-alpha
