@@ -1,8 +1,7 @@
-# Changelog
+## Change Log
+### [Unreleased][unreleased]
 
-
-## [Unreleased][unreleased]
-
+## [1.0.0-alpha]
 ### Added
 - Inicializovaná CakePHP 5 aplikácia.
 - Vytvorený `UsersController` s podporou registrácie a login/logout.
@@ -28,3 +27,7 @@
 - Riešené chyby: `Subject must be an instance of AuthenticationServiceInterface`, `Missing Table class`, hashovanie hesla, IdentityHelper trait chýbajúci.
 - Odstránené problémy s logout route a nezobrazením identity používateľa.
 - Opravené SQL dotazy pre join medzi produktmi a kategóriami.
+
+[unreleased]: https://github.com/digilopment/rshop/compare/1.0.0...master
+[1.0.0]: https://github.com/digilopment/rshop/compare/1.0.0-alpha...1.0.0
+[1.0.0-alpha]: https://github.com/digilopment/rshop/commit/412dd73...1.0.0-alpha
