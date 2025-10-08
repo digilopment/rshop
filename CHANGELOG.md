@@ -1,6 +1,10 @@
 ## Change Log
 ### [Unreleased][unreleased]
 
+## [1.1.0]
+### Changed
+- Prechod na php8.4
+
 ## [1.0.0]
 ### Changed
 - Zmenená konfigurácia na sqllite

@@ -6,6 +6,7 @@ DOCKERFILE="Dockerfile"
 BUILD_CONTEXT="."
 VERSION="master"
 CONFIG="app_db_lite.php"
+PHP_VERSION="8.4"
 PORT="8885:80"
 
 # Zastavenie a vymazanie existujúceho containeru
@@ -26,6 +27,7 @@ echo "🛠 Building Docker image for $CONTAINER_NAME..."
 docker build \
     --no-cache \
     --file "$DOCKERFILE" \
+    --build-arg PHP_VERSION="$PHP_VERSION" \
     --build-arg VERSION="$VERSION" \
     --build-arg CONFIG="$CONFIG" \
     -t "$CONTAINER_NAME:latest" \

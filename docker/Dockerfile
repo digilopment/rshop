@@ -1,12 +1,15 @@
 FROM ubuntu:22.04
 
+# Build-time arguments
 ARG VERSION
 ARG CONFIG
+ARG PHP_VERSION
+
 ENV VERSION=${VERSION}
 ENV CONFIG=${CONFIG}
+ENV PHP_VERSION=${PHP_VERSION}
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update & základné balíky
 RUN apt-get update && apt-get install -y \
     software-properties-common \
     git \
@@ -18,57 +21,49 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN add-apt-repository ppa:ondrej/php -y && apt-get update && apt-get install -y \
-    php8.1 \
-    php8.1-cli \
-    php8.1-fpm \
-    php8.1-bcmath \
-    php8.1-dev \
-    php8.1-mysql \
-    php8.1-gd \
-    php8.1-intl \
-    php8.1-mbstring \
-    php8.1-xml \
-    php8.1-zip \
-    php8.1-soap \
-    php8.1-gmp \
-    php8.1-curl \
-    php8.1-sqlite3 \
-    php8.1-redis \
-    php8.1-imap \
-    php8.1-common \
+    php${PHP_VERSION} \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-bcmath \
+    php${PHP_VERSION}-dev \
+    php${PHP_VERSION}-mysql \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-xml \
+    php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-soap \
+    php${PHP_VERSION}-gmp \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-sqlite3 \
+    php${PHP_VERSION}-redis \
+    php${PHP_VERSION}-imap \
+    php${PHP_VERSION}-common \
     nginx \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Klon repozitára
 WORKDIR /var/www
 RUN git clone --branch ${VERSION} --single-branch https://github.com/digilopment/rshop.git app
 
 WORKDIR /var/www/app
 
-# Composer install
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 COPY ./${CONFIG} /var/www/app/config/app_local.php
 
-# Konfigurácia nginx
 RUN rm /etc/nginx/sites-enabled/default
 COPY ./nginx.conf /etc/nginx/sites-enabled/rshop.conf
 
-# Nastavenie práv
-RUN chown -R www-data:www-data /var/www/app/tmp /var/www/app/logs
+RUN mkdir -p /var/www/app/mnt/ && touch /var/www/app/mnt/rshop.sqlite
 
-RUN chmod 0777 -R /var/www/app/webroot
+RUN chown -R www-data:www-data /var/www/app/tmp /var/www/app/logs /var/www/app/mnt
+RUN chmod 0777 -R /var/www/app/webroot /var/www/app/mnt /var/www/app/mnt
 
-# Expose porty
 EXPOSE 80
 
-# Spustenie všetkého
 CMD bash -c "\
-  service php8.1-fpm start && \
+  service php${PHP_VERSION}-fpm start && \
   bin/cake migrations migrate && \
   nginx -g 'daemon off;' \
 "
-
