@@ -4,8 +4,8 @@
 CONTAINER_NAME="rshop-app"
 DOCKERFILE="Dockerfile"
 BUILD_CONTEXT="."
-VERSION="bod-4"
-CONFIG="app_db_ws.php"
+VERSION="master"
+CONFIG="app_db_lite.php"
 PORT="8885:80"
 
 # Zastavenie a vymazanie existujúceho containeru

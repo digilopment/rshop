@@ -2,27 +2,12 @@ networks:
   rshop-network:
 
 services:
-  rshop-db:
-    image: mysql:8.0
-    container_name: rshop-db
-    environment:
-      MYSQL_DATABASE: rshop
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-    networks:
-      - rshop-network
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   rshop-app:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        VERSION: bod-4
+        VERSION: master
         CONFIG: app_local.php
     container_name: rshop-app
     ports:
@@ -30,6 +15,3 @@ services:
     networks:
       - rshop-network
     restart: unless-stopped
-    depends_on:
-      rshop-db:
-        condition: service_healthy

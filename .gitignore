@@ -4,6 +4,8 @@
 /config/.env
 /logs/*
 /tmp/*
+/mnt/*
+!/mnt/README.md
 /vendor/*
 
 # OS generated files #
