@@ -77,10 +77,9 @@ class CartProduct implements CartItemInterface
     {
         return $this->taxRate;
     }
-    
-    public function getContext(): CartContext
+
+    public function getContext(): ?CartContext
     {
         return $this->context;
     }
-
 }

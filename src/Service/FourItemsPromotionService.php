@@ -9,26 +9,25 @@ use Riesenia\Cart\CartContext;
 use Riesenia\Cart\CartItemInterface;
 use Riesenia\Cart\PromotionInterface;
 
-
 class FourItemsPromotionService implements PromotionInterface
 {
-
     private const EXTRA_ITEMS = 1;
-    
+
     public function isEligible(Cart $cart): bool
     {
         $cheapest = $this->cheapsetPromotedItem($cart);
+
         return $cheapest !== null;
     }
 
     public function beforeApply(Cart $cart): void
     {
-        
     }
 
     public function apply(Cart $cart): void
     {
         $cheapestItem = $this->cheapsetPromotedItem($cart);
+
         if (!$cheapestItem) {
             return;
         }
@@ -48,18 +47,17 @@ class FourItemsPromotionService implements PromotionInterface
         $cart->setItemQuantity($cheapestItem->getCartId(), $newQuantity);
 
         $cart->setContext(['promotionData' => new CartContext(
-                $cart,
-                [
+            $cart,
+            [
                 'fourItemsPromotion' => $discount,
                 'fourItemsPromotedItem' => $cheapestItem,
-                'fourItemsExtraItems' => self::EXTRA_ITEMS,
-                ]
+                'fourItemsExtraItems' => self::EXTRA_ITEMS
+            ]
         )]);
     }
 
     public function afterApply(Cart $cart): void
     {
-        
     }
 
     private function cheapsetPromotedItem(Cart $cart): ?CartItemInterface
@@ -80,5 +78,4 @@ class FourItemsPromotionService implements PromotionInterface
 
         return $cheapestItem;
     }
-
 }

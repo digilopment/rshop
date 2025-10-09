@@ -29,14 +29,15 @@
                         $unitPriceWithVat = $item->getUnitPrice() + ($item->getUnitPrice() / 100 * $item->getTaxRate());
                         $totalPriceWithVat = $unitPriceWithVat * $item->getCartQuantity();
 
-              
                         $fourItemsTotalPriceWithVat = 0;
                         $contextData = $item->getContext()->getData();
+
                         if (isset($contextData['promotionData'])) {
                             $promotionsData = $contextData['promotionData']->getData();
                             $fourItemsPromotedItem = $promotionsData['fourItemsPromotedItem'];
                             $discount = $promotionsData['fourItemsPromotion'];
                             $fourItemsExtraItems = $promotionsData['fourItemsExtraItems'];
+
                             if ($fourItemsPromotedItem->getCartId() == $item->getCartId()) {
                                 $fourItemsTotalPriceWithVat = $totalPriceWithVat - $discount;
                             }
@@ -51,31 +52,31 @@
                             </td>
                             <?php
 
-                            ?>
+                        ?>
                              <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withoutVat()); ?></td>
                             <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withVat()); ?></td>
                             <td><?= $item->getTaxRate(); ?> %</td>
                             <td class="fw-bold text-success">
-                                <?php if ($fourItemsTotalPriceWithVat): ?>
-                                    <del class="text-danger"><?= number_format($totalPriceWithVat, 2, ',', ' '); ?> €</del>
-                                    <b><?= number_format($fourItemsTotalPriceWithVat, 2, ',', ' '); ?> €</b>
-                                <?php else: ?>
-                                    <?= number_format($totalPriceWithVat, 2, ',', ' '); ?> €
-                                <?php endif; ?>
+                                <?php if ($fourItemsTotalPriceWithVat) { ?>
+                                    <del class="text-danger"><?= \number_format($totalPriceWithVat, 2, ',', ' '); ?> €</del>
+                                    <b><?= \number_format($fourItemsTotalPriceWithVat, 2, ',', ' '); ?> €</b>
+                                <?php } else { ?>
+                                    <?= \number_format($totalPriceWithVat, 2, ',', ' '); ?> €
+                                <?php } ?>
                             </td>
                             <td>
-                                <?php if ($fourItemsTotalPriceWithVat): ?>
+                                <?php if ($fourItemsTotalPriceWithVat) { ?>
                                     <div class="badge bg-danger fs-6 " style="opacity: 0.25;">
                                         <?= $item->getCartQuantity() - $fourItemsExtraItems; ?>
                                     </div>
                                     <span class="badge bg-primary fs-6">
                                         <?= $item->getCartQuantity(); ?>
                                     </span>
-                                <?php else: ?>
+                                <?php } else { ?>
                                     <span class="badge bg-primary fs-6">
                                         <?= $item->getCartQuantity(); ?>
                                     </span>
-                                <?php endif; ?>
+                                <?php } ?>
                             </td>
 
 
@@ -92,13 +93,12 @@
                                     >
                                     +1
                                 </button>
-                                <?=
-                                $this->Html->link('<i class="bi bi-trash"></i> Odstrániť', ['action' => 'remove', $item->getCartId()], [
+                                <?= $this->Html->link('<i class="bi bi-trash"></i> Odstrániť', ['action' => 'remove', $item->getCartId()], [
                                     'class' => 'btn btn-sm btn-danger',
                                     'escape' => false
                                 ]);
 
-                                ?>
+                        ?>
                             </td>
                         </tr>
                     <?php } ?>

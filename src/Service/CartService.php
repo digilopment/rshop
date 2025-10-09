@@ -9,7 +9,6 @@ use Riesenia\Cart\Cart;
 
 class CartService
 {
-
     public Cart $cart;
     private Session $session;
     private string $userStorrage;
@@ -58,7 +57,6 @@ class CartService
 
     public function add(string $id, string $name, float $unitPrice, float $quantity = 1, float $taxRate = 20.0, string $type = 'product'): void
     {
-
         $existingProductCartQuantity = 0;
 
         foreach ($this->cart->getItems() as $item) {
@@ -107,6 +105,7 @@ class CartService
     private function persist(): void
     {
         $items = [];
+
         foreach ($this->cart->getItems() as $item) {
             $items[$item->getCartId()] = [
                 'id' => $item->getCartId(),
@@ -119,5 +118,4 @@ class CartService
         }
         $this->session->write($this->userStorrage, $items);
     }
-
 }
