@@ -11,13 +11,17 @@ use Riesenia\Cart\PromotionInterface;
 
 class FourItemsPromotionService implements PromotionInterface
 {
+    private const ADD_EXTRA_QUANTITY = 0;
     private const EXTRA_ITEMS = 1;
+    private const ITEMS_TRASH_HOLD = 1;
 
     public function isEligible(Cart $cart): bool
     {
-        $cheapest = $this->cheapsetPromotedItem($cart);
+        if (\count($cart->getItems()) >= 4) {
+            return true;
+        }
 
-        return $cheapest !== null;
+        return false;
     }
 
     public function beforeApply(Cart $cart): void
@@ -38,14 +42,13 @@ class FourItemsPromotionService implements PromotionInterface
                 $amount = Decimal::fromFloat((float) $amount);
             }
             $discountDecimal = Decimal::fromFloat((float) $discount);
-            $newTotal = $amount->sub($discountDecimal);
 
-            return $newTotal->isNegative() ? Decimal::fromFloat(0.0) : $newTotal;
+            return $amount->sub($discountDecimal);
         });
 
-        $newQuantity = $cheapestItem->getCartQuantity() + self::EXTRA_ITEMS;
+        $newQuantity = $cheapestItem->getCartQuantity() + self::ADD_EXTRA_QUANTITY;
 
-        if ($cheapestItem->getCartQuantity() == 4) {
+        if ($cheapestItem->getCartQuantity() == self::ITEMS_TRASH_HOLD) {
             $cart->setItemQuantity($cheapestItem->getCartId(), $newQuantity);
         }
 
@@ -53,7 +56,9 @@ class FourItemsPromotionService implements PromotionInterface
             $cart,
             [
                 'fourItemsPromotion' => $discount,
+                'fourItemsPromotionWithoutVat' => $cheapestItem->getUnitPrice(),
                 'fourItemsPromotedItem' => $cheapestItem,
+                'fourItemsExtraQuantity' => self::ADD_EXTRA_QUANTITY,
                 'fourItemsExtraItems' => self::EXTRA_ITEMS
             ]
         )]);
@@ -69,7 +74,7 @@ class FourItemsPromotionService implements PromotionInterface
         $minPrice = PHP_FLOAT_MAX;
 
         foreach ($cart->getItems() as $item) {
-            if ($item->getCartQuantity() >= 4) {
+            if ($item->getCartQuantity() >= self::ITEMS_TRASH_HOLD) {
                 $price = $item->getUnitPrice();
 
                 if ($price < $minPrice) {

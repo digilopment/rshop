@@ -17,33 +17,44 @@
                 </thead>
                 <tbody>
                     <?php
-                    foreach ($items as $item) {
-                        $slug = \strtolower(\Cake\Utility\Text::slug($item->getCartName()));
-                        $detailUrl = $this->Url->build([
-                            'controller' => 'Products',
-                            'action' => 'product',
-                            $item->getCartId(),
-                            $slug
-                        ]);
+                    $discountWithoutVat = $discount = 0;
 
-                        $unitPriceWithVat = $item->getUnitPrice() + ($item->getUnitPrice() / 100 * $item->getTaxRate());
-                        $totalPriceWithVat = $unitPriceWithVat * $item->getCartQuantity();
+        foreach ($items as $item) {
+            $slug = \strtolower(\Cake\Utility\Text::slug($item->getCartName()));
+            $detailUrl = $this->Url->build([
+                'controller' => 'Products',
+                'action' => 'product',
+                $item->getCartId(),
+                $slug
+            ]);
 
-                        $fourItemsTotalPriceWithVat = 0;
-                        $contextData = $item->getContext()->getData();
+            $unitPriceWithVat = $item->getUnitPrice() + ($item->getUnitPrice() / 100 * $item->getTaxRate());
+            $totalPriceWithVat = $unitPriceWithVat * $item->getCartQuantity();
 
-                        if (isset($contextData['promotionData'])) {
-                            $promotionsData = $contextData['promotionData']->getData();
-                            $fourItemsPromotedItem = $promotionsData['fourItemsPromotedItem'];
-                            $discount = $promotionsData['fourItemsPromotion'];
-                            $fourItemsExtraItems = $promotionsData['fourItemsExtraItems'];
+            $fourItemsTotalPriceWithVat = 0;
+            $contextData = $item->getContext()->getData();
 
-                            if ($fourItemsPromotedItem->getCartId() == $item->getCartId()) {
-                                $fourItemsTotalPriceWithVat = $totalPriceWithVat - $discount;
-                            }
-                        }
+            $isDiscount = 0;
 
-                        ?>
+            if (isset($contextData['promotionData'])) {
+                $promotionsData = $contextData['promotionData']->getData();
+                $fourItemsPromotedItem = $promotionsData['fourItemsPromotedItem'];
+                $discount = $promotionsData['fourItemsPromotion'];
+                $discountWithoutVat = $promotionsData['fourItemsPromotionWithoutVat'];
+                $fourItemsExtraItems = $promotionsData['fourItemsExtraItems'];
+
+                if ($fourItemsPromotedItem->getCartId() == $item->getCartId()) {
+                    $fourItemsTotalPriceWithVat = $totalPriceWithVat - $discount;
+                }
+            }
+
+            if (isset($contextData['promotionData'])) {
+                if ($item->getCartId() == $fourItemsPromotedItem->getCartId()) {
+                    $isDiscount = 1;
+                }
+            }
+
+            ?>
                         <tr class="align-middle">
                             <td>
                                 <a href="<?= $detailUrl; ?>" class="text-decoration-none fw-semibold text-dark">
@@ -51,12 +62,13 @@
                                 </a>
                             </td>
                             <?php
-                        ?>
-                             <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withoutVat()); ?></td>
+
+            ?>
+                            <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withoutVat()); ?></td>
                             <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withVat()); ?></td>
                             <td><?= $item->getTaxRate(); ?> %</td>
                             <td class="fw-bold text-success">
-                                <?php if ($fourItemsTotalPriceWithVat) { ?>
+                                <?php if ($isDiscount) { ?>
                                     <del class="text-danger"><?= \number_format($totalPriceWithVat, 2, ',', ' '); ?> €</del>
                                     <b><?= \number_format($fourItemsTotalPriceWithVat, 2, ',', ' '); ?> €</b>
                                 <?php } else { ?>
@@ -64,15 +76,15 @@
                                 <?php } ?>
                             </td>
                             <td>
-                                <?php if ($fourItemsTotalPriceWithVat) { ?>
-                                    <div class="badge bg-danger fs-6 " style="opacity: 0.25;">
+                                <?php if ($isDiscount) { ?>
+                                    <div title="Počet platených položiek" class="badge bg-primary fs-6 " style="opacity: 0.25;">
                                         <?= $item->getCartQuantity() - $fourItemsExtraItems; ?>
                                     </div>
-                                    <span class="badge bg-primary fs-6">
+                                    <span title="Celkový počet položiek" class="badge bg-success fs-6">
                                         <?= $item->getCartQuantity(); ?>
                                     </span>
                                 <?php } else { ?>
-                                    <span class="badge bg-primary fs-6">
+                                    <span title="Počet platených položiek" class="badge bg-primary fs-6">
                                         <?= $item->getCartQuantity(); ?>
                                     </span>
                                 <?php } ?>
@@ -97,7 +109,7 @@
                                     'escape' => false
                                 ]);
 
-                        ?>
+            ?>
                             </td>
                         </tr>
                     <?php } ?>
@@ -108,7 +120,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-3">
             <div class="fs-5 fw-bold">
                 Spolu: <span class="text-success"><?= \number_format($total, 2, ',', ' '); ?> €</span><br>
-                <small class="text-muted">bez DPH: <?= \number_format($totalWithoutTax, 2, ',', ' '); ?> €</small>
+                <small class="text-muted">bez DPH: <?= \number_format($totalWithoutTax - $discountWithoutVat, 2, ',', ' '); ?> €</small>
             </div>
 
             <div class="d-flex gap-2 flex-wrap">
