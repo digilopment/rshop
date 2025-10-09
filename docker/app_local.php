@@ -9,15 +9,12 @@ return [
     ],
     'Datasources' => [
         'default' => [
-            'host' => 'rshop-db',
-            'port' => '3306',
-            'username' => 'root',
-            'password' => 'root',
-            'database' => 'rshop',
-            'driver' => 'Cake\Database\Driver\Mysql',
+            'className' => 'Cake\Database\Connection',
+            'driver' => 'Cake\Database\Driver\Sqlite',
+            'database' => ROOT . DS . 'mnt' . DS . 'rshop.sqlite',
             'encoding' => 'utf8mb4',
-            'timezone' => 'UTC',
-            'cacheMetadata' => false
+            'cacheMetadata' => false,
+            'quoteIdentifiers' => false
         ]
     ],
     'EmailTransport' => [

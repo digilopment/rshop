@@ -4,7 +4,7 @@
 CONTAINER_NAME="rshop-app"
 DOCKERFILE="Dockerfile"
 BUILD_CONTEXT="."
-VERSION="master"
+VERSION="4-items-promotions"
 CONFIG="app_db_lite.php"
 PHP_VERSION="8.4"
 PORT="8885:80"

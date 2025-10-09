@@ -1,6 +1,9 @@
 ## Change Log
 ### [Unreleased][unreleased]
 
+### Added
+- Pridana funkcionalita zlavy `jeden produkt navyse` na najlacnejsi produkt, ktorých pocet je aspon 4
+
 ## [1.1.0]
 ### Changed
 - Prechod na php8.4
