@@ -44,7 +44,10 @@ class FourItemsPromotionService implements PromotionInterface
         });
 
         $newQuantity = $cheapestItem->getCartQuantity() + self::EXTRA_ITEMS;
-        $cart->setItemQuantity($cheapestItem->getCartId(), $newQuantity);
+
+        if ($cheapestItem->getCartQuantity() == 4) {
+            $cart->setItemQuantity($cheapestItem->getCartId(), $newQuantity);
+        }
 
         $cart->setContext(['promotionData' => new CartContext(
             $cart,

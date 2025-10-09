@@ -51,7 +51,6 @@
                                 </a>
                             </td>
                             <?php
-
                         ?>
                              <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withoutVat()); ?></td>
                             <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withVat()); ?></td>
