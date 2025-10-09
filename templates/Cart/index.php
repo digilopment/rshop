@@ -8,6 +8,7 @@
                     <tr>
                         <th>Názov</th>
                         <th>Cena / ks / bez DPH</th>
+                        <th>Cena / ks / s DPH</th>
                         <th>DPH</th>
                         <th>Celková cena s DPH</th>
                         <th>Množstvo</th>
@@ -28,6 +29,19 @@
                         $unitPriceWithVat = $item->getUnitPrice() + ($item->getUnitPrice() / 100 * $item->getTaxRate());
                         $totalPriceWithVat = $unitPriceWithVat * $item->getCartQuantity();
 
+              
+                        $fourItemsTotalPriceWithVat = 0;
+                        $contextData = $item->getContext()->getData();
+                        if (isset($contextData['promotionData'])) {
+                            $promotionsData = $contextData['promotionData']->getData();
+                            $fourItemsPromotedItem = $promotionsData['fourItemsPromotedItem'];
+                            $discount = $promotionsData['fourItemsPromotion'];
+                            $fourItemsExtraItems = $promotionsData['fourItemsExtraItems'];
+                            if ($fourItemsPromotedItem->getCartId() == $item->getCartId()) {
+                                $fourItemsTotalPriceWithVat = $totalPriceWithVat - $discount;
+                            }
+                        }
+
                         ?>
                         <tr class="align-middle">
                             <td>
@@ -35,12 +49,36 @@
                                     <?= h($item->getCartName()); ?>
                                 </a>
                             </td>
-                            <td><?= \number_format($item->getUnitPrice(), 2, ',', ' '); ?> €</td>
+                            <?php
+
+                            ?>
+                             <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withoutVat()); ?></td>
+                            <td><?= h($this->Price->display($item->getUnitPrice(), $item->getTaxRate())->withVat()); ?></td>
                             <td><?= $item->getTaxRate(); ?> %</td>
-                            <td class="fw-bold text-success"><?= \number_format($totalPriceWithVat, 2, ',', ' '); ?> €</td>
-                            <td>
-                                <span class="badge bg-primary fs-6"><?= $item->getCartQuantity(); ?></span>
+                            <td class="fw-bold text-success">
+                                <?php if ($fourItemsTotalPriceWithVat): ?>
+                                    <del class="text-danger"><?= number_format($totalPriceWithVat, 2, ',', ' '); ?> €</del>
+                                    <b><?= number_format($fourItemsTotalPriceWithVat, 2, ',', ' '); ?> €</b>
+                                <?php else: ?>
+                                    <?= number_format($totalPriceWithVat, 2, ',', ' '); ?> €
+                                <?php endif; ?>
                             </td>
+                            <td>
+                                <?php if ($fourItemsTotalPriceWithVat): ?>
+                                    <div class="badge bg-danger fs-6 " style="opacity: 0.25;">
+                                        <?= $item->getCartQuantity() - $fourItemsExtraItems; ?>
+                                    </div>
+                                    <span class="badge bg-primary fs-6">
+                                        <?= $item->getCartQuantity(); ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge bg-primary fs-6">
+                                        <?= $item->getCartQuantity(); ?>
+                                    </span>
+                                <?php endif; ?>
+                            </td>
+
+
                             <td class="d-flex gap-1 flex-wrap">
                                 <a href="<?= $detailUrl; ?>" class="btn btn-sm btn-outline-dark">
                                     <i class="bi bi-info-circle"></i> Produkt
@@ -54,12 +92,13 @@
                                     >
                                     +1
                                 </button>
-                                <?= $this->Html->link('<i class="bi bi-trash"></i> Odstrániť', ['action' => 'remove', $item->getCartId()], [
+                                <?=
+                                $this->Html->link('<i class="bi bi-trash"></i> Odstrániť', ['action' => 'remove', $item->getCartId()], [
                                     'class' => 'btn btn-sm btn-danger',
                                     'escape' => false
                                 ]);
 
-                        ?>
+                                ?>
                             </td>
                         </tr>
                     <?php } ?>
