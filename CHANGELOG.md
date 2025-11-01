@@ -2,7 +2,7 @@
 ### [Unreleased][unreleased]
 
 ### Added
-- Pridana funkcionalita zlavy `jeden produkt navyse` na najlacnejsi produkt, ktorých pocet je aspon 4
+- Pridana funkcionalita zlavy `najlacnejsi produkt bezplatne v quantity == 1` v košíku, v ktorom su aspoň 4 itemy
 
 ## [1.1.0]
 ### Changed
