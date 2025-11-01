@@ -39,20 +39,12 @@ class CartService
             $this->cart->setItemQuantity($item->id, $item->quantity);
         }
         $this->applyPromos();
-        $this->cart->getItems();
+        $this->cart->setItems($this->cart->getItems());
     }
 
     public function applyPromos(): void
     {
-        $promotion = new FourItemsPromotionService();
-
-        $promotion->beforeApply($this->cart);
-
-        if ($promotion->isEligible($this->cart)) {
-            $promotion->apply($this->cart);
-        }
-
-        $promotion->afterApply($this->cart);
+        $this->cart->addPromotion(new FourItemsPromotionService());
     }
 
     public function add(string $id, string $name, float $unitPrice, float $quantity = 1, float $taxRate = 20.0, string $type = 'product'): void
